@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  SelectModuleVC.h
 //  Attendance Monitor
 //
 //  Created by Myles Ringle on 06/02/2014.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
+@interface SelectModuleVC : UITableViewController
 
 @end

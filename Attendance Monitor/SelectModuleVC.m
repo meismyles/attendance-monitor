@@ -1,18 +1,18 @@
 //
-//  FirstViewController.m
+//  SelectModuleVC.m
 //  Attendance Monitor
 //
 //  Created by Myles Ringle on 06/02/2014.
 //  Copyright (c) 2014 Myles Ringle. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "SelectModuleVC.h"
 
-@interface FirstViewController ()
+@interface SelectModuleVC ()
 
 @end
 
-@implementation FirstViewController
+@implementation SelectModuleVC
 
 - (void)viewDidLoad
 {

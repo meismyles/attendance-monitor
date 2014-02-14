@@ -14,8 +14,8 @@
 		008F582818A3E1B90012370C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F582718A3E1B90012370C /* main.m */; };
 		008F582C18A3E1B90012370C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F582B18A3E1B90012370C /* AppDelegate.m */; };
 		008F582F18A3E1B90012370C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 008F582D18A3E1B90012370C /* Main.storyboard */; };
-		008F583218A3E1B90012370C /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* FirstViewController.m */; };
-		008F583518A3E1B90012370C /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* SecondViewController.m */; };
+		008F583218A3E1B90012370C /* AddStudentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* AddStudentVC.m */; };
+		008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* SelectModuleVC.m */; };
 		008F583718A3E1B90012370C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 008F583618A3E1B90012370C /* Images.xcassets */; };
 		008F583E18A3E1B90012370C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F583D18A3E1B90012370C /* XCTest.framework */; };
 		008F583F18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
@@ -24,6 +24,10 @@
 		008F584A18A3E1B90012370C /* Attendance_MonitorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F584918A3E1B90012370C /* Attendance_MonitorTests.m */; };
 		008F585418A3E3BE0012370C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 008F585318A3E3BE0012370C /* README.md */; };
 		00AD62DF18A92D1900DF72F0 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AD62DE18A92D1900DF72F0 /* opencv2.framework */; };
+		00AD62ED18AA7A2700DF72F0 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62E918AA7A2700DF72F0 /* add.png */; };
+		00AD62EE18AA7A2700DF72F0 /* add2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EA18AA7A2700DF72F0 /* add2x.png */; };
+		00AD62EF18AA7A2700DF72F0 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EB18AA7A2700DF72F0 /* clock.png */; };
+		00AD62F018AA7A2700DF72F0 /* clock2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EC18AA7A2700DF72F0 /* clock2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +52,10 @@
 		008F582A18A3E1B90012370C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		008F582B18A3E1B90012370C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		008F582E18A3E1B90012370C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		008F583018A3E1B90012370C /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		008F583118A3E1B90012370C /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		008F583318A3E1B90012370C /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		008F583418A3E1B90012370C /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		008F583018A3E1B90012370C /* AddStudentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddStudentVC.h; sourceTree = "<group>"; };
+		008F583118A3E1B90012370C /* AddStudentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddStudentVC.m; sourceTree = "<group>"; };
+		008F583318A3E1B90012370C /* SelectModuleVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectModuleVC.h; sourceTree = "<group>"; };
+		008F583418A3E1B90012370C /* SelectModuleVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectModuleVC.m; sourceTree = "<group>"; };
 		008F583618A3E1B90012370C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		008F583C18A3E1B90012370C /* Attendance MonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Attendance MonitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F583D18A3E1B90012370C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -60,6 +64,10 @@
 		008F584918A3E1B90012370C /* Attendance_MonitorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Attendance_MonitorTests.m; sourceTree = "<group>"; };
 		008F585318A3E3BE0012370C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		00AD62DE18A92D1900DF72F0 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "Attendance Monitor/Frameworks/opencv2.framework"; sourceTree = "<group>"; };
+		00AD62E918AA7A2700DF72F0 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add.png; path = "Attendance Monitor/Images/add.png"; sourceTree = "<group>"; };
+		00AD62EA18AA7A2700DF72F0 /* add2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add2x.png; path = "Attendance Monitor/Images/add2x.png"; sourceTree = "<group>"; };
+		00AD62EB18AA7A2700DF72F0 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock.png; path = "Attendance Monitor/Images/clock.png"; sourceTree = "<group>"; };
+		00AD62EC18AA7A2700DF72F0 /* clock2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock2x.png; path = "Attendance Monitor/Images/clock2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,12 +133,13 @@
 				008F582A18A3E1B90012370C /* AppDelegate.h */,
 				008F582B18A3E1B90012370C /* AppDelegate.m */,
 				008F582D18A3E1B90012370C /* Main.storyboard */,
-				008F583018A3E1B90012370C /* FirstViewController.h */,
-				008F583118A3E1B90012370C /* FirstViewController.m */,
-				008F583318A3E1B90012370C /* SecondViewController.h */,
-				008F583418A3E1B90012370C /* SecondViewController.m */,
+				008F583018A3E1B90012370C /* AddStudentVC.h */,
+				008F583118A3E1B90012370C /* AddStudentVC.m */,
+				008F583318A3E1B90012370C /* SelectModuleVC.h */,
+				008F583418A3E1B90012370C /* SelectModuleVC.m */,
 				008F583618A3E1B90012370C /* Images.xcassets */,
 				008F582218A3E1B90012370C /* Supporting Files */,
+				00AD62E018AA73A600DF72F0 /* Images */,
 			);
 			path = "Attendance Monitor";
 			sourceTree = "<group>";
@@ -162,6 +171,18 @@
 				008F584618A3E1B90012370C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		00AD62E018AA73A600DF72F0 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				00AD62E918AA7A2700DF72F0 /* add.png */,
+				00AD62EA18AA7A2700DF72F0 /* add2x.png */,
+				00AD62EB18AA7A2700DF72F0 /* clock.png */,
+				00AD62EC18AA7A2700DF72F0 /* clock2x.png */,
+			);
+			name = Images;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,7 +264,11 @@
 				008F583718A3E1B90012370C /* Images.xcassets in Resources */,
 				008F582618A3E1B90012370C /* InfoPlist.strings in Resources */,
 				008F585418A3E3BE0012370C /* README.md in Resources */,
+				00AD62ED18AA7A2700DF72F0 /* add.png in Resources */,
+				00AD62F018AA7A2700DF72F0 /* clock2x.png in Resources */,
 				008F582F18A3E1B90012370C /* Main.storyboard in Resources */,
+				00AD62EF18AA7A2700DF72F0 /* clock.png in Resources */,
+				00AD62EE18AA7A2700DF72F0 /* add2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,9 +287,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008F583518A3E1B90012370C /* SecondViewController.m in Sources */,
+				008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */,
 				008F582C18A3E1B90012370C /* AppDelegate.m in Sources */,
-				008F583218A3E1B90012370C /* FirstViewController.m in Sources */,
+				008F583218A3E1B90012370C /* AddStudentVC.m in Sources */,
 				008F582818A3E1B90012370C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
