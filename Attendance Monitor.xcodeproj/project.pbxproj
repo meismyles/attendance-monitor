@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0001FA0C18D7BAF900968F11 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA0B18D7BAF900968F11 /* haarcascade_frontalface_default.xml */; };
+		0001FA1018D7E9BA00968F11 /* haarcascade_frontalface_alt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA0F18D7E9BA00968F11 /* haarcascade_frontalface_alt.xml */; };
+		0001FA1318DBBCBB00968F11 /* Overlay-Face.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA1118DBBCBB00968F11 /* Overlay-Face.png */; };
+		0001FA1418DBBCBB00968F11 /* Overlay-NoFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */; };
+		002DB1AF18C91E0200210BBF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1A918C91E0200210BBF /* Accelerate.framework */; };
+		002DB1B018C91E0200210BBF /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */; };
+		002DB1B118C91E0200210BBF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AB18C91E0200210BBF /* CoreImage.framework */; };
+		002DB1B218C91E0200210BBF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AC18C91E0200210BBF /* CoreMedia.framework */; };
+		002DB1B318C91E0200210BBF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AD18C91E0200210BBF /* CoreVideo.framework */; };
+		002DB1B418C91E0200210BBF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AE18C91E0200210BBF /* QuartzCore.framework */; };
+		003A214618DD3242006157C1 /* SQLQueries.m in Sources */ = {isa = PBXBuildFile; fileRef = 003A214518DD3242006157C1 /* SQLQueries.m */; };
 		008F581C18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
 		008F581E18A3E1B90012370C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581D18A3E1B90012370C /* CoreGraphics.framework */; };
 		008F582018A3E1B90012370C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581F18A3E1B90012370C /* UIKit.framework */; };
@@ -17,7 +28,6 @@
 		008F583218A3E1B90012370C /* AddStudentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* AddStudentVC.m */; };
 		008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* SelectModuleVC.m */; };
 		008F583718A3E1B90012370C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 008F583618A3E1B90012370C /* Images.xcassets */; };
-		008F583E18A3E1B90012370C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F583D18A3E1B90012370C /* XCTest.framework */; };
 		008F583F18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
 		008F584018A3E1B90012370C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581F18A3E1B90012370C /* UIKit.framework */; };
 		008F584818A3E1B90012370C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 008F584618A3E1B90012370C /* InfoPlist.strings */; };
@@ -28,6 +38,11 @@
 		00AD62EE18AA7A2700DF72F0 /* add2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EA18AA7A2700DF72F0 /* add2x.png */; };
 		00AD62EF18AA7A2700DF72F0 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EB18AA7A2700DF72F0 /* clock.png */; };
 		00AD62F018AA7A2700DF72F0 /* clock2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 00AD62EC18AA7A2700DF72F0 /* clock2x.png */; };
+		00AFDE3918DD11D100056D61 /* ScanVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AFDE3818DD11D100056D61 /* ScanVC.mm */; };
+		00AFDE3C18DD250D00056D61 /* FaceAnalyser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AFDE3B18DD250D00056D61 /* FaceAnalyser.mm */; };
+		00F01EEE18B1387400FD23DF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F01EED18B1387400FD23DF /* libsqlite3.dylib */; };
+		00F8C3E218B9054800E01DB6 /* CaptureImagesVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00F8C3E118B9054800E01DB6 /* CaptureImagesVC.mm */; };
+		00F8C3E418B9129800E01DB6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F8C3E318B9129800E01DB6 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +56,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0001FA0B18D7BAF900968F11 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
+		0001FA0F18D7E9BA00968F11 /* haarcascade_frontalface_alt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt.xml; sourceTree = "<group>"; };
+		0001FA1118DBBCBB00968F11 /* Overlay-Face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Overlay-Face.png"; path = "Attendance Monitor/Images/Overlay-Face.png"; sourceTree = "<group>"; };
+		0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Overlay-NoFace.png"; path = "Attendance Monitor/Images/Overlay-NoFace.png"; sourceTree = "<group>"; };
+		002DB1A918C91E0200210BBF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		002DB1AB18C91E0200210BBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		002DB1AC18C91E0200210BBF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		002DB1AD18C91E0200210BBF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		002DB1AE18C91E0200210BBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		003A214418DD3242006157C1 /* SQLQueries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLQueries.h; sourceTree = "<group>"; };
+		003A214518DD3242006157C1 /* SQLQueries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLQueries.m; sourceTree = "<group>"; };
 		008F581818A3E1B90012370C /* Attendance Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Attendance Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F581B18A3E1B90012370C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		008F581D18A3E1B90012370C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,7 +85,6 @@
 		008F583418A3E1B90012370C /* SelectModuleVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectModuleVC.m; sourceTree = "<group>"; };
 		008F583618A3E1B90012370C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		008F583C18A3E1B90012370C /* Attendance MonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Attendance MonitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		008F583D18A3E1B90012370C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		008F584518A3E1B90012370C /* Attendance MonitorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Attendance MonitorTests-Info.plist"; sourceTree = "<group>"; };
 		008F584718A3E1B90012370C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		008F584918A3E1B90012370C /* Attendance_MonitorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Attendance_MonitorTests.m; sourceTree = "<group>"; };
@@ -68,6 +94,14 @@
 		00AD62EA18AA7A2700DF72F0 /* add2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add2x.png; path = "Attendance Monitor/Images/add2x.png"; sourceTree = "<group>"; };
 		00AD62EB18AA7A2700DF72F0 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock.png; path = "Attendance Monitor/Images/clock.png"; sourceTree = "<group>"; };
 		00AD62EC18AA7A2700DF72F0 /* clock2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock2x.png; path = "Attendance Monitor/Images/clock2x.png"; sourceTree = "<group>"; };
+		00AFDE3718DD11D100056D61 /* ScanVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanVC.h; sourceTree = "<group>"; };
+		00AFDE3818DD11D100056D61 /* ScanVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScanVC.mm; sourceTree = "<group>"; };
+		00AFDE3A18DD250D00056D61 /* FaceAnalyser.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FaceAnalyser.hh; sourceTree = "<group>"; };
+		00AFDE3B18DD250D00056D61 /* FaceAnalyser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceAnalyser.mm; sourceTree = "<group>"; };
+		00F01EED18B1387400FD23DF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		00F8C3E018B9054800E01DB6 /* CaptureImagesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureImagesVC.h; sourceTree = "<group>"; };
+		00F8C3E118B9054800E01DB6 /* CaptureImagesVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CaptureImagesVC.mm; sourceTree = "<group>"; };
+		00F8C3E318B9129800E01DB6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +109,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00AD62DF18A92D1900DF72F0 /* opencv2.framework in Frameworks */,
+				002DB1AF18C91E0200210BBF /* Accelerate.framework in Frameworks */,
+				002DB1B018C91E0200210BBF /* AssetsLibrary.framework in Frameworks */,
+				002DB1B118C91E0200210BBF /* CoreImage.framework in Frameworks */,
+				002DB1B218C91E0200210BBF /* CoreMedia.framework in Frameworks */,
+				002DB1B318C91E0200210BBF /* CoreVideo.framework in Frameworks */,
+				002DB1B418C91E0200210BBF /* QuartzCore.framework in Frameworks */,
 				008F581E18A3E1B90012370C /* CoreGraphics.framework in Frameworks */,
+				00F8C3E418B9129800E01DB6 /* AVFoundation.framework in Frameworks */,
+				00F01EEE18B1387400FD23DF /* libsqlite3.dylib in Frameworks */,
+				00AD62DF18A92D1900DF72F0 /* opencv2.framework in Frameworks */,
 				008F582018A3E1B90012370C /* UIKit.framework in Frameworks */,
 				008F581C18A3E1B90012370C /* Foundation.framework in Frameworks */,
 			);
@@ -86,7 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008F583E18A3E1B90012370C /* XCTest.framework in Frameworks */,
 				008F584018A3E1B90012370C /* UIKit.framework in Frameworks */,
 				008F583F18A3E1B90012370C /* Foundation.framework in Frameworks */,
 			);
@@ -95,10 +136,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0001FA0D18D7BB5300968F11 /* Add Student */ = {
+			isa = PBXGroup;
+			children = (
+				008F583018A3E1B90012370C /* AddStudentVC.h */,
+				008F583118A3E1B90012370C /* AddStudentVC.m */,
+				00F8C3E018B9054800E01DB6 /* CaptureImagesVC.h */,
+				00F8C3E118B9054800E01DB6 /* CaptureImagesVC.mm */,
+			);
+			name = "Add Student";
+			sourceTree = "<group>";
+		};
+		0001FA0E18D7BB7000968F11 /* Take Attendance */ = {
+			isa = PBXGroup;
+			children = (
+				00AFDE3718DD11D100056D61 /* ScanVC.h */,
+				00AFDE3818DD11D100056D61 /* ScanVC.mm */,
+				008F583318A3E1B90012370C /* SelectModuleVC.h */,
+				008F583418A3E1B90012370C /* SelectModuleVC.m */,
+			);
+			name = "Take Attendance";
+			sourceTree = "<group>";
+		};
 		008F580F18A3E1B90012370C = {
 			isa = PBXGroup;
 			children = (
 				008F582118A3E1B90012370C /* Attendance Monitor */,
+				008F582218A3E1B90012370C /* Supporting Files */,
 				008F584318A3E1B90012370C /* Attendance MonitorTests */,
 				008F581A18A3E1B90012370C /* Frameworks */,
 				008F581918A3E1B90012370C /* Products */,
@@ -118,11 +182,18 @@
 		008F581A18A3E1B90012370C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00F01EED18B1387400FD23DF /* libsqlite3.dylib */,
 				00AD62DE18A92D1900DF72F0 /* opencv2.framework */,
+				002DB1A918C91E0200210BBF /* Accelerate.framework */,
+				002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */,
+				002DB1AB18C91E0200210BBF /* CoreImage.framework */,
+				002DB1AC18C91E0200210BBF /* CoreMedia.framework */,
+				002DB1AD18C91E0200210BBF /* CoreVideo.framework */,
+				002DB1AE18C91E0200210BBF /* QuartzCore.framework */,
+				00F8C3E318B9129800E01DB6 /* AVFoundation.framework */,
 				008F581B18A3E1B90012370C /* Foundation.framework */,
 				008F581D18A3E1B90012370C /* CoreGraphics.framework */,
 				008F581F18A3E1B90012370C /* UIKit.framework */,
-				008F583D18A3E1B90012370C /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,12 +204,13 @@
 				008F582A18A3E1B90012370C /* AppDelegate.h */,
 				008F582B18A3E1B90012370C /* AppDelegate.m */,
 				008F582D18A3E1B90012370C /* Main.storyboard */,
-				008F583018A3E1B90012370C /* AddStudentVC.h */,
-				008F583118A3E1B90012370C /* AddStudentVC.m */,
-				008F583318A3E1B90012370C /* SelectModuleVC.h */,
-				008F583418A3E1B90012370C /* SelectModuleVC.m */,
+				003A214418DD3242006157C1 /* SQLQueries.h */,
+				003A214518DD3242006157C1 /* SQLQueries.m */,
+				00AFDE3A18DD250D00056D61 /* FaceAnalyser.hh */,
+				00AFDE3B18DD250D00056D61 /* FaceAnalyser.mm */,
+				0001FA0D18D7BB5300968F11 /* Add Student */,
+				0001FA0E18D7BB7000968F11 /* Take Attendance */,
 				008F583618A3E1B90012370C /* Images.xcassets */,
-				008F582218A3E1B90012370C /* Supporting Files */,
 				00AD62E018AA73A600DF72F0 /* Images */,
 			);
 			path = "Attendance Monitor";
@@ -147,12 +219,15 @@
 		008F582218A3E1B90012370C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0001FA0F18D7E9BA00968F11 /* haarcascade_frontalface_alt.xml */,
+				0001FA0B18D7BAF900968F11 /* haarcascade_frontalface_default.xml */,
 				008F582318A3E1B90012370C /* Attendance Monitor-Info.plist */,
 				008F582418A3E1B90012370C /* InfoPlist.strings */,
 				008F582718A3E1B90012370C /* main.m */,
 				008F582918A3E1B90012370C /* Attendance Monitor-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = "Attendance Monitor";
 			sourceTree = "<group>";
 		};
 		008F584318A3E1B90012370C /* Attendance MonitorTests */ = {
@@ -176,6 +251,8 @@
 		00AD62E018AA73A600DF72F0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0001FA1118DBBCBB00968F11 /* Overlay-Face.png */,
+				0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */,
 				00AD62E918AA7A2700DF72F0 /* add.png */,
 				00AD62EA18AA7A2700DF72F0 /* add2x.png */,
 				00AD62EB18AA7A2700DF72F0 /* clock.png */,
@@ -229,7 +306,7 @@
 		008F581018A3E1B90012370C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Myles Ringle";
 				TargetAttributes = {
 					008F583B18A3E1B90012370C = {
@@ -261,9 +338,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0001FA1418DBBCBB00968F11 /* Overlay-NoFace.png in Resources */,
+				0001FA1018D7E9BA00968F11 /* haarcascade_frontalface_alt.xml in Resources */,
 				008F583718A3E1B90012370C /* Images.xcassets in Resources */,
+				0001FA0C18D7BAF900968F11 /* haarcascade_frontalface_default.xml in Resources */,
 				008F582618A3E1B90012370C /* InfoPlist.strings in Resources */,
 				008F585418A3E3BE0012370C /* README.md in Resources */,
+				0001FA1318DBBCBB00968F11 /* Overlay-Face.png in Resources */,
 				00AD62ED18AA7A2700DF72F0 /* add.png in Resources */,
 				00AD62F018AA7A2700DF72F0 /* clock2x.png in Resources */,
 				008F582F18A3E1B90012370C /* Main.storyboard in Resources */,
@@ -287,8 +368,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F8C3E218B9054800E01DB6 /* CaptureImagesVC.mm in Sources */,
 				008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */,
+				00AFDE3C18DD250D00056D61 /* FaceAnalyser.mm in Sources */,
 				008F582C18A3E1B90012370C /* AppDelegate.m in Sources */,
+				00AFDE3918DD11D100056D61 /* ScanVC.mm in Sources */,
+				003A214618DD3242006157C1 /* SQLQueries.m in Sources */,
 				008F583218A3E1B90012370C /* AddStudentVC.m in Sources */,
 				008F582818A3E1B90012370C /* main.m in Sources */,
 			);
@@ -344,7 +429,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -373,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -383,7 +467,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -406,7 +489,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -424,6 +507,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Attendance Monitor/Attendance Monitor-Prefix.pch";
 				INFOPLIST_FILE = "Attendance Monitor/Attendance Monitor-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -441,6 +525,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Attendance Monitor/Attendance Monitor-Prefix.pch";
 				INFOPLIST_FILE = "Attendance Monitor/Attendance Monitor-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -449,7 +534,6 @@
 		008F585118A3E1B90012370C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Attendance Monitor.app/Attendance Monitor";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -472,7 +556,6 @@
 		008F585218A3E1B90012370C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Attendance Monitor.app/Attendance Monitor";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

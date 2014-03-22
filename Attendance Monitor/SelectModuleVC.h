@@ -10,4 +10,7 @@
 
 @interface SelectModuleVC : UITableViewController
 
+@property (strong, nonatomic) IBOutlet UILabel *meow;
+
+
 @end
