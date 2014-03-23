@@ -17,7 +17,6 @@
 		002DB1B218C91E0200210BBF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AC18C91E0200210BBF /* CoreMedia.framework */; };
 		002DB1B318C91E0200210BBF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AD18C91E0200210BBF /* CoreVideo.framework */; };
 		002DB1B418C91E0200210BBF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AE18C91E0200210BBF /* QuartzCore.framework */; };
-		003A214618DD3242006157C1 /* SQLQueries.m in Sources */ = {isa = PBXBuildFile; fileRef = 003A214518DD3242006157C1 /* SQLQueries.m */; };
 		008F581C18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
 		008F581E18A3E1B90012370C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581D18A3E1B90012370C /* CoreGraphics.framework */; };
 		008F582018A3E1B90012370C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581F18A3E1B90012370C /* UIKit.framework */; };
@@ -25,7 +24,7 @@
 		008F582818A3E1B90012370C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F582718A3E1B90012370C /* main.m */; };
 		008F582C18A3E1B90012370C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F582B18A3E1B90012370C /* AppDelegate.m */; };
 		008F582F18A3E1B90012370C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 008F582D18A3E1B90012370C /* Main.storyboard */; };
-		008F583218A3E1B90012370C /* AddStudentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* AddStudentVC.m */; };
+		008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* AddStudentVC.mm */; };
 		008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* SelectModuleVC.m */; };
 		008F583718A3E1B90012370C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 008F583618A3E1B90012370C /* Images.xcassets */; };
 		008F583F18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
@@ -66,8 +65,6 @@
 		002DB1AC18C91E0200210BBF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		002DB1AD18C91E0200210BBF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		002DB1AE18C91E0200210BBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		003A214418DD3242006157C1 /* SQLQueries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLQueries.h; sourceTree = "<group>"; };
-		003A214518DD3242006157C1 /* SQLQueries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLQueries.m; sourceTree = "<group>"; };
 		008F581818A3E1B90012370C /* Attendance Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Attendance Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F581B18A3E1B90012370C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		008F581D18A3E1B90012370C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -80,7 +77,7 @@
 		008F582B18A3E1B90012370C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		008F582E18A3E1B90012370C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		008F583018A3E1B90012370C /* AddStudentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddStudentVC.h; sourceTree = "<group>"; };
-		008F583118A3E1B90012370C /* AddStudentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddStudentVC.m; sourceTree = "<group>"; };
+		008F583118A3E1B90012370C /* AddStudentVC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AddStudentVC.mm; sourceTree = "<group>"; };
 		008F583318A3E1B90012370C /* SelectModuleVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectModuleVC.h; sourceTree = "<group>"; };
 		008F583418A3E1B90012370C /* SelectModuleVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectModuleVC.m; sourceTree = "<group>"; };
 		008F583618A3E1B90012370C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -140,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				008F583018A3E1B90012370C /* AddStudentVC.h */,
-				008F583118A3E1B90012370C /* AddStudentVC.m */,
+				008F583118A3E1B90012370C /* AddStudentVC.mm */,
 				00F8C3E018B9054800E01DB6 /* CaptureImagesVC.h */,
 				00F8C3E118B9054800E01DB6 /* CaptureImagesVC.mm */,
 			);
@@ -150,10 +147,10 @@
 		0001FA0E18D7BB7000968F11 /* Take Attendance */ = {
 			isa = PBXGroup;
 			children = (
-				00AFDE3718DD11D100056D61 /* ScanVC.h */,
-				00AFDE3818DD11D100056D61 /* ScanVC.mm */,
 				008F583318A3E1B90012370C /* SelectModuleVC.h */,
 				008F583418A3E1B90012370C /* SelectModuleVC.m */,
+				00AFDE3718DD11D100056D61 /* ScanVC.h */,
+				00AFDE3818DD11D100056D61 /* ScanVC.mm */,
 			);
 			name = "Take Attendance";
 			sourceTree = "<group>";
@@ -204,8 +201,6 @@
 				008F582A18A3E1B90012370C /* AppDelegate.h */,
 				008F582B18A3E1B90012370C /* AppDelegate.m */,
 				008F582D18A3E1B90012370C /* Main.storyboard */,
-				003A214418DD3242006157C1 /* SQLQueries.h */,
-				003A214518DD3242006157C1 /* SQLQueries.m */,
 				00AFDE3A18DD250D00056D61 /* FaceAnalyser.hh */,
 				00AFDE3B18DD250D00056D61 /* FaceAnalyser.mm */,
 				0001FA0D18D7BB5300968F11 /* Add Student */,
@@ -373,8 +368,7 @@
 				00AFDE3C18DD250D00056D61 /* FaceAnalyser.mm in Sources */,
 				008F582C18A3E1B90012370C /* AppDelegate.m in Sources */,
 				00AFDE3918DD11D100056D61 /* ScanVC.mm in Sources */,
-				003A214618DD3242006157C1 /* SQLQueries.m in Sources */,
-				008F583218A3E1B90012370C /* AddStudentVC.m in Sources */,
+				008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */,
 				008F582818A3E1B90012370C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,12 +13,16 @@
 #import <opencv2/objdetect/objdetect.hpp>
 #import <opencv2/imgproc/imgproc.hpp>
 
-@interface FaceAnalyser : NSObject
+@interface FaceAnalyser : NSObject {
+    cv::CascadeClassifier faceCascade;
+    cv::Mat croppedFace;
+}
 
 @property (assign, nonatomic) sqlite3 *database;
-@property cv::CascadeClassifier faceCascade;
+
+- (cv::Mat) getCroppedFace;
 
 - (void) openDatabase;
-- (void) loadFaceCascade;
+- (int) detectFace:(cv::Mat&)image;
 
 @end

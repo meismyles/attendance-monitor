@@ -47,13 +47,6 @@
     
     [faceAnalyser openDatabase];
     
-    NSString *pathOfFaceCascade = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default"
-                                                                ofType:@"xml"];
-
-    if (!faceCascade.load([pathOfFaceCascade UTF8String])) {
-        NSLog(@"Error loading face cascade: %@", pathOfFaceCascade);
-    }
-    
     imagesTaken = 1;
     badFacePosition = 0;
     badPositionAlertVisible = NO;
@@ -130,53 +123,58 @@
 {
     if (currentFrame == 20) {
         
-
-        std::vector<cv::Rect> faces;
-        faceCascade.detectMultiScale(image, faces, 1.1, 2, CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH,
-                                                                                                        cv::Size(60, 60));
-        
-        if (faces.size() != 1) {
-            // No face detected
-            overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
-        }
-        else {
-            // We only care about the first face
-            cv::Rect face = faces[0];
+        if (badPositionAlertVisible == NO) {
             
-            [[self test] setText: [NSString stringWithFormat: @"%d * %d", face.x, face.y]];
+            int isFaceDetected = [faceAnalyser detectFace:image];
             
-            int faceWidth = face.width;
-            int faceHeight = face.height;
-            
-            // X: 25-50
-            // Y: 150-225
-            // Width: 380-410
-            // Height: 380-410
-            if (((face.x >= 25) && (face.x <= 50)) && ((face.y >= 150) && (face.y <= 225)) &&
-                ((faceWidth >= 380) && (faceWidth <= 410)) && ((faceHeight >= 380) && (faceHeight <= 410)) &&
-                    (badPositionAlertVisible == NO)) {
-            
+            if (isFaceDetected == 0) {
+                // No face detected
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    self.name.text = @"No face detected";
+                    self.confidence.text = @"N/A";
+ 
+                    overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
+                });
+            }
+            else if (isFaceDetected == 1) {
+                // Face is not positioned correctly
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    self.name.text = @"Bad face position";
+                    self.confidence.text = @"N/A";
+                    
+                    overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
+                    
+                    badFacePosition++;
+                    if (badFacePosition == 15) {
+                        badPositionAlert = [[UIAlertView alloc] initWithTitle:@"Bad Face Positioning"
+                                                                      message:@"Please align your face with so that it fully fills the red bordered view."
+                                                                     delegate:self
+                                                            cancelButtonTitle:nil
+                                                            otherButtonTitles:@"OK", nil];
+                        [badPositionAlert show];
+                        badPositionAlertVisible = YES;
+                        
+                    }
+                });
+            }
+            else if (isFaceDetected == 2) {
+                // Face is detected and has good positioning
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    overlayImageView.image = [UIImage imageNamed:@"Overlay-Face.png"];
+                });
                 
-                overlayImageView.image = [UIImage imageNamed:@"Overlay-Face.png"];
                 badFacePosition = 0;
-                //rectangle(image, face, CV_RGB(0, 255,0), 3);
-
+                
                 NSString *message = @"No match found";
                 NSString *confidenceLabelString = @"";
                 
                 // Unless the database is empty, try a match
                 if (modelTrainPassed == YES) {
                 
+                    cv::Mat croppedFace = [faceAnalyser getCroppedFace];
+                    
                     int predictedLabel = -1;
                     double confidence = 0.0;
-                    
-                    // Learn it
-                    // Pull the grayscale face ROI out of the captured image
-                    cv::Mat croppedFace;
-                    cv::cvtColor(image(face), croppedFace, CV_RGB2GRAY);
-                    
-                    // Standardize the face to 100x100 pixels
-                    cv::resize(croppedFace, croppedFace, cv::Size(300, 300), 1.0, 1.0, cv::INTER_CUBIC);
                     
                     model->predict(croppedFace, predictedLabel, confidence);
                     
@@ -230,26 +228,8 @@
                 });
                 
             }
-            else {
-                // Face is not positioned correctly
-                overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
-                
-                badFacePosition++;
-                if (badFacePosition == 15) {
-                    badPositionAlert = [[UIAlertView alloc] initWithTitle:@"Bad Face Positioning"
-                                                                    message:@"Please align your face with so that it fully fills the red bordered view."
-                                                                   delegate:self
-                                                          cancelButtonTitle:nil
-                                                          otherButtonTitles:@"OK", nil];
-                    [badPositionAlert show];
-                    badPositionAlertVisible = YES;
-                    
-                }
-            }
         }
-        
         currentFrame = 1;
-        
     }
     else {
         currentFrame++;
