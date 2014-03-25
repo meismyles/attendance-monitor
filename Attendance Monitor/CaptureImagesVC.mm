@@ -79,6 +79,10 @@
      
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self camera] stop];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -141,7 +145,6 @@
                     // If all images have been taken then end the learning process
                     if (imagesTaken == 15) {
                         
-                        [[self camera] stop];
                         sqlite3_close([faceAnalyser database]);
                         [self.navigationController popViewControllerAnimated:YES];
                         

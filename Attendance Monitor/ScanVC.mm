@@ -95,7 +95,7 @@
         modelTrainPassed = YES;
     }
     else {
-        printf("********* MODEL TRAIL FAILED *************");
+        printf("********* MODEL TRAIN FAILED *************");
     }
 
     ////////
@@ -108,8 +108,7 @@
     [self.cameraView addSubview:overlayImageView];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [[self camera] stop];
 }
 
