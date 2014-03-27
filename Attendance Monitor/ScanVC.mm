@@ -9,6 +9,8 @@
 #import "ScanVC.h"
 #import "FaceAnalyser.hh"
 
+static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php";
+
 @interface ScanVC () {
     int currentFrame;
     int imagesTaken;
@@ -20,6 +22,7 @@
     
     UIImageView *overlayImageView;
     
+    UIAlertView *downloadFailedAlert;
     UIAlertView *badPositionAlert;
     BOOL badPositionAlertVisible;
     UIAlertView *captureCompleteAlert;
@@ -28,6 +31,7 @@
 }
 
 @property (assign, nonatomic) int userID;
+@property (strong, nonatomic) NSArray *imageArray;
 
 @end
 
@@ -44,9 +48,7 @@
     modelTrainPassed = NO;
     
     model = cv::createLBPHFaceRecognizer();
-    
-    [faceAnalyser openDatabase];
-    
+        
     imagesTaken = 1;
     badFacePosition = 0;
     badPositionAlertVisible = NO;
@@ -58,38 +60,92 @@
     [[self camera] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
     [[self camera] setDefaultFPS:30];
     [[self camera] setGrayscaleMode:NO];
-     
+    
+    ///////////
+    // NOT NEEDED RIGHT NOW - POSTING DATA FOR NO REASON
+    NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[self username], @"username", nil];
+    
+    NSError *error;
+    NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+    NSURL *url = [NSURL URLWithString:getUserIDLink];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody:studentData];
+    
+    NSURLResponse *response = nil;
+    error = nil;
+    
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [self performSelectorOnMainThread:@selector(fetchedImageArray:) withObject:data waitUntilDone:YES];
+    
+    ///////////
+    
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void) fetchedImageArray:(NSData *) data {
+    
+    // Check if the download was interrupted or failed.
+    // If so, display an error alert and instruct the user accordingly.
+    if (data == nil) {
+        downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Retry", nil];
+        [downloadFailedAlert show];
+    }
+    // Otherwise, the download was successful.
+    else {
+        NSError *error;
+        
+        // Note that we are not calling the setter method here... as this would be recursive!!!
+        _imageArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        
+        // Reset the download property, as we have now finished the download.
+        // [self setDownloadInProgress:NO];
+        
+        // Check again to make sure the download has completely finished.
+        if (_imageArray != nil) {
+            
+            // ****************************************************************************************************************
+            // End the refresh animation of the refresh control.
+            // [[self refreshControl] endRefreshing];
+            
+            [self downloadComplete];
+            
+        }
+    }
+}
+
+- (void)downloadComplete {
     
     // TRAIN THE MODEL
     std::vector<cv::Mat> images;
     std::vector<int> labels;
     
-    const char* selectSQL = "SELECT person_id, image FROM images";
-    sqlite3_stmt *statement;
-    
-    if (sqlite3_prepare_v2([faceAnalyser database], selectSQL, -1, &statement, nil) == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            int personID = sqlite3_column_int(statement, 0);
-            
-            // First pull out the image into NSData
-            int imageSize = sqlite3_column_bytes(statement, 1);
-            NSData *imageData = [NSData dataWithBytes:sqlite3_column_blob(statement, 1) length:imageSize];
-            
-            // Then convert NSData to a cv::Mat. Images are standardized into 100x100
-            cv::Mat faceData = cv::Mat(300, 300, CV_8UC1);
-            faceData.data = (unsigned char*)imageData.bytes;
-            
-            // Put this image into the model
-            images.push_back(faceData);
-            labels.push_back(personID);
-        }
-    }
-    
-    sqlite3_finalize(statement);
+    for (int i = 0; i < [[self imageArray] count]; i++) {
+        NSDictionary *imageDict = [[self imageArray] objectAtIndex:i];
+        
+        int studentID = [[imageDict objectForKey:@"user_id"] intValue];
+        
+        // Pull out the image into NSData
+        NSString *imageString = [imageDict objectForKey:@"image"];
+        NSData *imageData = [[NSData alloc] initWithBase64EncodedString:imageString options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        NSLog(@"!!!!!!!!!!!! %@", imageData);
 
+        
+        // Then convert NSData to a cv::Mat. Images are standardized into 100x100
+        cv::Mat faceData = cv::Mat(300, 300, CV_8UC1);
+        faceData.data = (unsigned char*)imageData.bytes;
+        
+        // Put this image into the model
+        images.push_back(faceData);
+        labels.push_back(studentID);
+    }
+
+    
     if (images.size() > 0 && labels.size() > 0) {
         model->train(images, labels);
         modelTrainPassed = YES;
@@ -97,7 +153,7 @@
     else {
         printf("********* MODEL TRAIN FAILED *************");
     }
-
+    
     ////////
     
     [[self camera] start];
@@ -181,18 +237,26 @@
                     
                     // If a match was found, lookup the person's name
                     if (predictedLabel != -1) {
-                        const char* selectSQL = "SELECT username FROM people WHERE id = ?";
-                        sqlite3_stmt *statement;
+                        NSNumber *predictedUserID = [NSNumber numberWithInt:predictedLabel];
+                        NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:predictedUserID, @"user_id", nil];
                         
-                        if (sqlite3_prepare_v2([faceAnalyser database], selectSQL, -1, &statement, nil) == SQLITE_OK) {
-                            sqlite3_bind_int(statement, 1, predictedLabel);
-                            
-                            if (sqlite3_step(statement) != SQLITE_DONE) {
-                                personName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-                            }
-                        }
+                        NSError *error;
+                        NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+                        NSURL *url = [NSURL URLWithString:getUserIDLink];
                         
-                        sqlite3_finalize(statement);
+                        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+                        [request setURL:url];
+                        [request setHTTPMethod:@"POST"];
+                        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+                        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                        [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+                        [request setHTTPBody:studentData];
+                        
+                        NSURLResponse *response = nil;
+                        error = nil;
+                        
+                        NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                        personName = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
                     }
                     
                     NSDictionary *match = @{

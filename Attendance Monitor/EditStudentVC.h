@@ -20,5 +20,8 @@
 @property (weak, nonatomic) IBOutlet FUIButton *captureImagesButton;
 
 @property (assign, nonatomic) int studentID;
+@property (strong, nonatomic) NSString *receivedFirstName;
+@property (strong, nonatomic) NSString *receivedLastName;
+@property (strong, nonatomic) NSString *receivedUsername;
 
 @end

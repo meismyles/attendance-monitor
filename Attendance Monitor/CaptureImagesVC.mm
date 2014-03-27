@@ -9,6 +9,9 @@
 #import "CaptureImagesVC.h"
 #import "FaceAnalyser.hh"
 
+static NSString *getUserIDLink = @"http://project.waroftoday.com/get_user_id.php";
+static NSString *addImageLink = @"http://project.waroftoday.com/add_images.php";
+
 @interface CaptureImagesVC () {
     int currentFrame;
     int imagesTaken;
@@ -45,20 +48,26 @@
     // Allocate main faceAnalyser
     faceAnalyser = [[FaceAnalyser alloc] init];
     
-    [faceAnalyser openDatabase];
-
+    NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[self username], @"username", nil];
     
-    // Get the user ID of the new user
-    const char *getUserIDSQL = [[NSString stringWithFormat:@"SELECT id FROM people WHERE username = \"%@\"", [self username]]
-                                                                            cStringUsingEncoding:NSUTF8StringEncoding];
-    sqlite3_stmt *statement;
-    if (sqlite3_prepare_v2([faceAnalyser database], getUserIDSQL, -1, &statement, nil) == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            [self setUserID: [[NSNumber numberWithInt:sqlite3_column_int(statement, 0)] intValue]];
-        }
-    }
-    sqlite3_finalize(statement);
+    NSError *error;
+    NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+    NSURL *url = [NSURL URLWithString:getUserIDLink];
     
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody:studentData];
+    
+    NSURLResponse *response = nil;
+    error = nil;
+    
+    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *responseData = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    [self setUserID:[responseData intValue]];
     
     // Set up camera
 	[self setCamera: [[CvVideoCamera alloc] initWithParentView:[self cameraView]]];
@@ -120,33 +129,62 @@
                     }
                 }
                 else if (isFaceDetected == 2) {
+                    
                     // Face is detected and has good positioning
                     cv::Mat croppedFace = [faceAnalyser getCroppedFace];
                     
                     overlayImageView.image = [UIImage imageNamed:@"Overlay-Face.png"];
                     badFacePosition = 0;
-            
-                    NSData *serialized = [[NSData alloc] initWithBytes:croppedFace.data length:croppedFace.elemSize() * croppedFace.total()];;
                     
-                    const char* insertSQL = "INSERT INTO images (person_id, image) VALUES (?, ?)";
-                    sqlite3_stmt *statement;
                     
-                    if (sqlite3_prepare_v2([faceAnalyser database], insertSQL, -1, &statement, nil) == SQLITE_OK) {
-                        sqlite3_bind_int(statement, 1, [self userID]);
-                        sqlite3_bind_blob(statement, 2, serialized.bytes, (int)serialized.length, SQLITE_TRANSIENT);
-                        sqlite3_step(statement);
-                    }
+                    // Create the thread
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        
+                        NSData *serialized = [[NSData alloc] initWithBytes:croppedFace.data
+                                                                    length:croppedFace.elemSize() * croppedFace.total()];
+                        NSString *theData = [serialized base64EncodedStringWithOptions:kNilOptions];
+                        
+                        NSNumber *userIDConverted = [NSNumber numberWithInt:[self userID]];
+                        NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:userIDConverted, @"user_id",
+                                                                                                theData, @"image", nil];
+                        
+                        printf("********* YOLO MOFO 2 *********");
+                        NSLog(@"!!!!!!!!!!!! %@", theData);
+
+                        
+                        NSError *error;
+                        NSData *studentData = [NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+                        NSURL *url = [NSURL URLWithString:addImageLink];
+                        
+                        printf("********* YOLO MOFO 3 *********");
+                        
+                        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+                        [request setURL:url];
+                        [request setHTTPMethod:@"POST"];
+                        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+                        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                        [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+                        [request setHTTPBody:studentData];
+                        
+                        NSURLResponse *response = nil;
+                        error = nil;
+                        
+                        printf("********* YOLO MOFO 4 *********");
+                        
+                        [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                        
+                        printf("********* YOLO MOFO 5 *********");
+
+                    });
                     
-                    sqlite3_finalize(statement);
-                    
+                    printf("********* YOLO MOFO 6 *********");
                     
                     [[self photosTaken] setText:[NSString stringWithFormat:@"Photos taken: %d", imagesTaken++]];
                     
                     // If all images have been taken then end the learning process
                     if (imagesTaken == 15) {
                         
-                        sqlite3_close([faceAnalyser database]);
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                         
                         captureCompleteAlert = [[UIAlertView alloc] initWithTitle:@"Image Capture Complete"
                                                                         message:@"All images have been successfully captured."
@@ -167,7 +205,6 @@
         currentFrame++;
     }
 }
-
 
 //==============================================================================
 #pragma mark - Error Handling

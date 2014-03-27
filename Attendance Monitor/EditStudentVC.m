@@ -7,6 +7,7 @@
 //
 
 #import "EditStudentVC.h"
+#import "CaptureImagesVC.h"
 
 @interface EditStudentVC ()
 
@@ -36,6 +37,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[self firstName] setText:[self receivedFirstName]];
+    [[self lastName] setText:[self receivedLastName]];
+    [[self usernameField] setText:[self receivedUsername]];
     
     [[self firstName] setDelegate:self];
     [[self lastName] setDelegate:self];
@@ -67,5 +72,20 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+// Prepare to move to new view
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([[segue identifier] isEqualToString:@"editCaptureImagesSegue"]) {
+        
+        NSString *username = [NSString stringWithFormat:@"%@", [[self usernameField] text]];
+        [[segue destinationViewController] setUsername:username];
+        
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:nil
+                                                                                action:nil];
+    }
+}
 
 @end

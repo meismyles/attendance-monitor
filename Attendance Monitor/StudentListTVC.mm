@@ -11,10 +11,16 @@
 #import "EditStudentVC.h"
 #import "FaceAnalyser.hh"
 
+static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
+
 @interface StudentListTVC () {
-    FaceAnalyser *faceAnalyser;
-    NSArray *studentList;
+    UIAlertView *downloadFailedAlert;
 }
+
+@property (assign, nonatomic) BOOL downloadInProgress;
+@property (assign, nonatomic) BOOL downloadFailed;
+
+@property (strong, nonatomic) NSArray *studentList;
 
 @end
 
@@ -33,10 +39,10 @@
 {
     [super viewDidLoad];
     
-    faceAnalyser = [[FaceAnalyser alloc] init];
-    [faceAnalyser openDatabase];
+    [self setDownloadInProgress:NO];
+    [self setDownloadFailed:YES];
     
-    studentList = [self getAllPeople];
+    [self refreshStudentList];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -45,6 +51,17 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+// Method to re-download the student list
+- (void) refreshStudentList {
+
+    [self setStudentList:nil];
+    
+    // Call method again to re-download
+    [self getStudentList];
+
+}
+
+/*
 - (NSArray *)getAllPeople
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
@@ -67,6 +84,73 @@
     
     return results;
 }
+*/
+
+- (NSArray *) getStudentList {
+    
+    // Only download module details if it does not already exist and if a download is not currently
+    // in progress.
+    if ((_studentList == nil) && ([self downloadInProgress] == NO)) {
+        
+        // Create the thread
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            // Generate the URL request for the JSON data
+            NSURL *url = [NSURL URLWithString:getAllPeopleLink];
+            NSError *error;
+            
+            // Get the data.
+            NSData *data = [NSData dataWithContentsOfURL:url options:kNilOptions error:&error];
+            
+            // Check for error while downloading.
+            // If not, set bool accordingly.
+            if (error == nil) {
+                [self setDownloadFailed:NO];
+            }
+            
+            // Call fetchedModuleDetails and pass the data to be handled.
+            [self performSelectorOnMainThread:@selector(fetchedStudentList:) withObject:data waitUntilDone:YES];
+        });
+        [self setDownloadInProgress:YES];
+    }
+    return _studentList;
+}
+
+// Method to parse JSON.
+// Stop _studentList from being modified before fully downloaded.
+- (void) fetchedStudentList:(NSData *) data {
+    
+    // Check if the download was interrupted or failed.
+    // If so, display an error alert and instruct the user accordingly.
+    if ((data == nil) || ([self downloadFailed])) {
+        [self setDownloadInProgress:NO];
+        downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Retry", nil];
+        [downloadFailedAlert show];
+    }
+    // Otherwise, the download was successful.
+    else {
+        NSError *error;
+        
+        // Note that we are not calling the setter method here... as this would be recursive!!!
+        _studentList = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        
+        // Reset the download property, as we have now finished the download.
+        [self setDownloadInProgress:NO];
+        
+        // Check again to make sure the download has completely finished.
+        if (_studentList != nil) {
+            
+            // ****************************************************************************************************************
+            // End the refresh animation of the refresh control.
+            // [[self refreshControl] endRefreshing];
+            
+            [[self tableView] reloadData];
+            
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -85,7 +169,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [studentList count];
+    return [[self studentList] count];
 }
 
 
@@ -99,15 +183,20 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
+    NSDictionary *studentDetails = [[self studentList] objectAtIndex:[indexPath row]];
+    
     // Set the title of the rows with their corresponding location title
-    NSString *studentName = [[studentList objectAtIndex:[indexPath row]] objectForKey:@"fullName"];
-    NSString *username = [[studentList objectAtIndex:[indexPath row]] objectForKey:@"username"];
+    NSString *studentName = [studentDetails objectForKey:@"fullname"];
     [[cell textLabel] setText:studentName];
-    [[cell detailTextLabel] setText:username];
     
     return cell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [NSString stringWithFormat:@"Number of Students: %d", (int)[[self studentList] count]];
+    return sectionTitle;
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -161,28 +250,44 @@
 
 // Prepare to move to new view
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    printf("************* TROLOLOLOL ***************");
     if ([[segue identifier] isEqualToString:@"studentSelected"]) {
         
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
 
-        int studentID = [[[studentList objectAtIndex:[indexPath row]] objectForKey:@"id"] intValue];
-        NSArray *fullName = [[[studentList objectAtIndex:[indexPath row]] objectForKey:@"fullName"]
-                                                                            componentsSeparatedByString:@" "];
+        NSDictionary *studentDetails = [[self studentList] objectAtIndex:[indexPath row]];
+
+        
+        int studentID = [[studentDetails objectForKey:@"id"] intValue];
+        NSArray *fullName = [[studentDetails objectForKey:@"fullname"] componentsSeparatedByString:@" "];
         NSString *firstName = [fullName objectAtIndex:0];
         NSString *lastName = [fullName objectAtIndex:1];
-        NSString *username = [[studentList objectAtIndex:[indexPath row]] objectForKey:@"username"];
+        NSString *username = [studentDetails objectForKey:@"username"];
         
         [[segue destinationViewController] setStudentID:studentID];
-        [[[segue destinationViewController] firstName] setText:firstName];
-        [[[segue destinationViewController] lastName] setText:lastName];
-        [[[segue destinationViewController] usernameField] setText:username];
+        [[segue destinationViewController] setReceivedFirstName:firstName];
+        [[segue destinationViewController] setReceivedLastName:lastName];
+        [[segue destinationViewController] setReceivedUsername:username];
         
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:nil
                                                                                 action:nil];
     }
+}
+
+
+//==============================================================================
+#pragma mark - Error Handling
+//==============================================================================
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView == downloadFailedAlert) {
+        if (buttonIndex == 0) {
+            // START RE-DOWNLOAD HERE
+        }
+    }
+    
 }
 
 @end
