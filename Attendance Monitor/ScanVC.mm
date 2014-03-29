@@ -9,9 +9,12 @@
 #import "ScanVC.h"
 #import "FaceAnalyser.hh"
 
-static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php";
+static NSString *getImagesLink = @"http://livattend.tk/get_images.php";
+static NSString *getUsernameLink = @"http://livattend.tk/get_username.php";
 
 @interface ScanVC () {
+    UIActivityIndicatorView *activityView;
+    
     int currentFrame;
     int imagesTaken;
     int badFacePosition;
@@ -37,13 +40,34 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
 
 @implementation ScanVC
 
+- (void) addLoadingSpinner {
+    
+    activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityView setColor:[UIColor grayColor]];
+    
+    activityView.center = CGPointMake(self.cameraView.frame.size.width/2,
+                                      self.cameraView.frame.size.height/2);
+    [activityView startAnimating];
+    
+    
+    [self.cameraView addSubview:activityView];
+}
+
+- (void) removeLoadingSpinner {
+    [activityView stopAnimating];
+    [activityView removeFromSuperview];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.name.text = @"";
+    self.confidence.text = @"";
+    
+    [self addLoadingSpinner];
     
     faceAnalyser = [[FaceAnalyser alloc] init];
-    
     
     modelTrainPassed = NO;
     
@@ -52,14 +76,10 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
     imagesTaken = 1;
     badFacePosition = 0;
     badPositionAlertVisible = NO;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
     
-	[self setCamera: [[CvVideoCamera alloc] initWithParentView:[self cameraView]]];
-    [[self camera] setDelegate:self];
-    [[self camera] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
-    [[self camera] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
-    [[self camera] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
-    [[self camera] setDefaultFPS:30];
-    [[self camera] setGrayscaleMode:NO];
     
     ///////////
     // NOT NEEDED RIGHT NOW - POSTING DATA FOR NO REASON
@@ -67,7 +87,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
     
     NSError *error;
     NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
-    NSURL *url = [NSURL URLWithString:getUserIDLink];
+    NSURL *url = [NSURL URLWithString:getImagesLink];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
@@ -84,7 +104,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
     [self performSelectorOnMainThread:@selector(fetchedImageArray:) withObject:data waitUntilDone:YES];
     
     ///////////
-    
+
 }
 
 - (void) fetchedImageArray:(NSData *) data {
@@ -92,6 +112,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
     // Check if the download was interrupted or failed.
     // If so, display an error alert and instruct the user accordingly.
     if (data == nil) {
+        [self removeLoadingSpinner];
         downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                          message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Retry", nil];
         [downloadFailedAlert show];
@@ -102,7 +123,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
         
         // Note that we are not calling the setter method here... as this would be recursive!!!
         _imageArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-        
+
         // Reset the download property, as we have now finished the download.
         // [self setDownloadInProgress:NO];
         
@@ -112,6 +133,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
             // ****************************************************************************************************************
             // End the refresh animation of the refresh control.
             // [[self refreshControl] endRefreshing];
+            [self removeLoadingSpinner];
             
             [self downloadComplete];
             
@@ -131,13 +153,13 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
         int studentID = [[imageDict objectForKey:@"user_id"] intValue];
         
         // Pull out the image into NSData
-        NSString *imageString = [imageDict objectForKey:@"image"];
-        NSData *imageData = [[NSData alloc] initWithBase64EncodedString:imageString options:NSDataBase64DecodingIgnoreUnknownCharacters];
-        NSLog(@"!!!!!!!!!!!! %@", imageData);
+        NSString *theString = [imageDict objectForKey:@"image"];
+        NSData *imageData = [[NSData alloc] initWithBase64EncodedString:theString
+                                                                options:kNilOptions];
 
         
         // Then convert NSData to a cv::Mat. Images are standardized into 100x100
-        cv::Mat faceData = cv::Mat(300, 300, CV_8UC1);
+        cv::Mat faceData = cv::Mat(400, 400, CV_8UC1);
         faceData.data = (unsigned char*)imageData.bytes;
         
         // Put this image into the model
@@ -156,6 +178,13 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
     
     ////////
     
+    [self setCamera: [[CvVideoCamera alloc] initWithParentView:[self cameraView]]];
+    [[self camera] setDelegate:self];
+    [[self camera] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
+    [[self camera] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
+    [[self camera] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
+    [[self camera] setDefaultFPS:30];
+    [[self camera] setGrayscaleMode:NO];
     [[self camera] start];
 
     overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView.bounds.size.width,
@@ -242,7 +271,7 @@ static NSString *getUserIDLink = @"http://project.waroftoday.com/get_images.php"
                         
                         NSError *error;
                         NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
-                        NSURL *url = [NSURL URLWithString:getUserIDLink];
+                        NSURL *url = [NSURL URLWithString:getUsernameLink];
                         
                         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
                         [request setURL:url];

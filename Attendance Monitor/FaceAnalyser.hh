@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <sqlite3.h>
 #import <opencv2/highgui/cap_ios.h>
 #import <opencv2/objdetect/objdetect.hpp>
 #import <opencv2/imgproc/imgproc.hpp>
@@ -18,11 +17,7 @@
     cv::Mat croppedFace;
 }
 
-@property (assign, nonatomic) sqlite3 *database;
-
 - (cv::Mat) getCroppedFace;
-
-- (void) openDatabase;
 - (int) detectFace:(cv::Mat&)image;
 
 @end

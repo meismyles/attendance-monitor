@@ -9,8 +9,8 @@
 #import "CaptureImagesVC.h"
 #import "FaceAnalyser.hh"
 
-static NSString *getUserIDLink = @"http://project.waroftoday.com/get_user_id.php";
-static NSString *addImageLink = @"http://project.waroftoday.com/add_images.php";
+static NSString *getUserIDLink = @"http://livattend.tk/get_user_id.php";
+static NSString *addImageLink = @"http://livattend.tk/add_images.php";
 
 @interface CaptureImagesVC () {
     int currentFrame;
@@ -40,7 +40,7 @@ static NSString *addImageLink = @"http://project.waroftoday.com/add_images.php";
 	// Do any additional setup after loading the view.
     
     // Variable initialization
-    imagesTaken = 0;
+    imagesTaken = 1;
     badFacePosition = 0;
     badPositionAlertVisible = NO;
     
@@ -148,15 +148,10 @@ static NSString *addImageLink = @"http://project.waroftoday.com/add_images.php";
                         NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:userIDConverted, @"user_id",
                                                                                                 theData, @"image", nil];
                         
-                        printf("********* YOLO MOFO 2 *********");
-                        NSLog(@"!!!!!!!!!!!! %@", theData);
-
                         
                         NSError *error;
                         NSData *studentData = [NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
                         NSURL *url = [NSURL URLWithString:addImageLink];
-                        
-                        printf("********* YOLO MOFO 3 *********");
                         
                         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
                         [request setURL:url];
@@ -169,20 +164,14 @@ static NSString *addImageLink = @"http://project.waroftoday.com/add_images.php";
                         NSURLResponse *response = nil;
                         error = nil;
                         
-                        printf("********* YOLO MOFO 4 *********");
-                        
                         [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
                         
-                        printf("********* YOLO MOFO 5 *********");
-
                     });
-                    
-                    printf("********* YOLO MOFO 6 *********");
                     
                     [[self photosTaken] setText:[NSString stringWithFormat:@"Photos taken: %d", imagesTaken++]];
                     
                     // If all images have been taken then end the learning process
-                    if (imagesTaken == 15) {
+                    if (imagesTaken > 15) {
                         
                         [self.navigationController popToRootViewControllerAnimated:YES];
                         

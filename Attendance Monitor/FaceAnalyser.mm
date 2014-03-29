@@ -33,16 +33,6 @@
 
 //////////////////////
 
-- (void) openDatabase {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentDirectory = [paths objectAtIndex:0];
-    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:@"local-database.sqlite"];
-    
-    if (sqlite3_open([dbPath UTF8String], &_database) != SQLITE_OK) {
-        NSLog(@"Cannot open the database.");
-    }
-}
-
 - (int) detectFace:(cv::Mat&)image {
     
     std::vector<cv::Rect> faces;
@@ -73,7 +63,7 @@
             // Crop the image to just the face
             cv::Mat tempCroppedFace;
             cv::cvtColor(image(face), tempCroppedFace, CV_RGB2GRAY);
-            cv::resize(tempCroppedFace, tempCroppedFace, cv::Size(300, 300), 1.0, 1.0, cv::INTER_CUBIC);
+            cv::resize(tempCroppedFace, tempCroppedFace, cv::Size(400, 400), 1.0, 1.0, cv::INTER_CUBIC);
             croppedFace = tempCroppedFace;
             
             return 2;

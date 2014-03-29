@@ -6,14 +6,15 @@
 //  Copyright (c) 2014 Myles Ringle. All rights reserved.
 //
 
-#import <sqlite3.h>
 #import "StudentListTVC.h"
 #import "EditStudentVC.h"
 #import "FaceAnalyser.hh"
 
-static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
+static NSString *getAllPeopleLink = @"http://livattend.tk/index.php";
 
 @interface StudentListTVC () {
+    UIActivityIndicatorView *activityView;
+    
     UIAlertView *downloadFailedAlert;
 }
 
@@ -42,13 +43,23 @@ static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
     [self setDownloadInProgress:NO];
     [self setDownloadFailed:YES];
     
-    [self refreshStudentList];
+    // Add refresh control to Master table view.
+    // Used to re-download the module details dictionary.
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshStudentList) forControlEvents:UIControlEventValueChanged];
+    [self setRefreshControl:refreshControl];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if ([self studentList] == nil) {
+        [self addLoadingSpinner];
+        [self refreshStudentList];
+    }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [self removeLoadingSpinner];
 }
 
 // Method to re-download the student list
@@ -60,31 +71,6 @@ static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
     [self getStudentList];
 
 }
-
-/*
-- (NSArray *)getAllPeople
-{
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-    
-    const char *findPeopleSQL = "SELECT id, fullName, username FROM people ORDER BY fullName";
-    sqlite3_stmt *statement;
-    
-    if (sqlite3_prepare_v2([faceAnalyser database], findPeopleSQL, -1, &statement, nil) == SQLITE_OK) {
-        while (sqlite3_step(statement) == SQLITE_ROW) {
-            NSNumber *personID = [NSNumber numberWithInt:sqlite3_column_int(statement, 0)];
-            NSString *personName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
-            NSString *username = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
-
-            
-            [results addObject:@{@"id": personID, @"fullName": personName, @"username": username}];
-        }
-    }
-    
-    sqlite3_finalize(statement);
-    
-    return results;
-}
-*/
 
 - (NSArray *) getStudentList {
     
@@ -123,9 +109,13 @@ static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
     // Check if the download was interrupted or failed.
     // If so, display an error alert and instruct the user accordingly.
     if ((data == nil) || ([self downloadFailed])) {
+        // End the refresh animation of the refresh control.
+        [[self refreshControl] endRefreshing];
+        [self removeLoadingSpinner];
+        
         [self setDownloadInProgress:NO];
         downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Retry", nil];
+                                                        message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Retry", nil];
         [downloadFailedAlert show];
     }
     // Otherwise, the download was successful.
@@ -141,14 +131,31 @@ static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
         // Check again to make sure the download has completely finished.
         if (_studentList != nil) {
             
-            // ****************************************************************************************************************
             // End the refresh animation of the refresh control.
-            // [[self refreshControl] endRefreshing];
+            [[self refreshControl] endRefreshing];
+            [self removeLoadingSpinner];
             
             [[self tableView] reloadData];
             
         }
     }
+}
+
+- (void) addLoadingSpinner {
+    
+    activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityView setColor:[UIColor grayColor]];
+    
+    activityView.center = CGPointMake(self.tableView.frame.size.width/2,
+                                      (self.tableView.frame.size.height/2)-self.tabBarController.tabBar.frame.size.height);
+    [activityView startAnimating];
+    
+    [self.view addSubview:activityView];
+}
+
+- (void) removeLoadingSpinner {
+    [activityView stopAnimating];
+    [activityView removeFromSuperview];
 }
 
 
@@ -283,8 +290,10 @@ static NSString *getAllPeopleLink = @"http://project.waroftoday.com/index.php";
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (alertView == downloadFailedAlert) {
-        if (buttonIndex == 0) {
-            // START RE-DOWNLOAD HERE
+        if (buttonIndex == 1) {
+            [self addLoadingSpinner];
+            [[self refreshControl] beginRefreshing];
+            [self refreshStudentList];
         }
     }
     
