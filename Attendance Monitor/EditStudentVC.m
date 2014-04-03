@@ -8,6 +8,7 @@
 
 #import "EditStudentVC.h"
 #import "CaptureImagesVC.h"
+
 static NSString *getModuleList = @"http://livattend.tk/get_modules.php";
 static NSString *getUsersModules = @"http://livattend.tk/get_users_modules.php";
 static NSString *editUserLink = @"http://livattend.tk/edit_user.php";
@@ -154,9 +155,9 @@ static NSString *editUserLink = @"http://livattend.tk/edit_user.php";
         
         [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         [self.navigationController popToRootViewControllerAnimated:YES];
-        UIAlertView *downloadNotComplete = [[UIAlertView alloc] initWithTitle:@"Changes Saved"
+        UIAlertView *changesSaved = [[UIAlertView alloc] initWithTitle:@"Changes Saved"
                                                                       message:@"The changes have been successfully saved." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [downloadNotComplete show];
+        [changesSaved show];
     }
     else {
         [emptyFieldAlert show];

@@ -12,9 +12,12 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *moduleCode;
 @property (strong, nonatomic) IBOutlet UILabel *moduleTitle;
+@property (strong, nonatomic) IBOutlet UITextField *lectureIDField;
+@property (strong, nonatomic) IBOutlet UILabel *prevLecture;
 
 @property (assign, nonatomic) int receivedModuleID;
 @property (strong, nonatomic) NSString *receivedModuleCode;
 @property (strong, nonatomic) NSString *receivedModuleTitle;
+@property (strong, nonatomic) NSString *receivedPrevLectureID;
 
 @end
