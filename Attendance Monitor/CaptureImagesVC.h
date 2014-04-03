@@ -21,5 +21,4 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *test;
 
-
 @end

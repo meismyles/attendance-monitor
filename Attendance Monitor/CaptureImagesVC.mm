@@ -44,7 +44,6 @@ static NSString *addImageLink = @"http://livattend.tk/add_images.php";
     badFacePosition = 0;
     badPositionAlertVisible = NO;
     
-    
     // Allocate main faceAnalyser
     faceAnalyser = [[FaceAnalyser alloc] init];
     
@@ -90,6 +89,11 @@ static NSString *addImageLink = @"http://livattend.tk/add_images.php";
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[self camera] stop];
+}
+
+
+- (IBAction)cancelCapture {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

@@ -1,5 +1,5 @@
 //
-//  SelectModuleVC.h
+//  TaughtModuleTVC.h
 //  Attendance Monitor
 //
 //  Created by Myles Ringle on 06/02/2014.
@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SelectModuleVC : UITableViewController
+@interface TaughtModuleTVC : UITableViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *meow;
-
+@property (strong, nonatomic) NSString *username;
 
 @end

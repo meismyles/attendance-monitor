@@ -1,91 +1,84 @@
 //
-//  StudentListTVC.m
+//  TaughtModuleTVC.m
 //  Attendance Monitor
 //
-//  Created by Myles Ringle on 24/03/2014.
+//  Created by Myles Ringle on 06/02/2014.
 //  Copyright (c) 2014 Myles Ringle. All rights reserved.
 //
 
-#import "StudentListTVC.h"
-#import "EditStudentVC.h"
-#import "FaceAnalyser.hh"
+#import "TaughtModuleTVC.h"
+#import "MonitorOptionsVC.h"
 
-static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
+static NSString *getTaughtModules = @"http://livattend.tk/get_taught_modules.php";
 
-@interface StudentListTVC () {
+@interface TaughtModuleTVC () {
     UIActivityIndicatorView *activityView;
-    
     UIAlertView *downloadFailedAlert;
+
 }
 
+@property (strong, nonatomic) NSArray *moduleList;
 @property (assign, nonatomic) BOOL downloadInProgress;
 @property (assign, nonatomic) BOOL downloadFailed;
-@property (assign, nonatomic) BOOL reloadStudentList;
 
 @end
 
-@implementation StudentListTVC
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@implementation TaughtModuleTVC
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
+    [self setUsername:@"tpayne"]; // *******************************************************************************
     
     [self setDownloadInProgress:NO];
     [self setDownloadFailed:YES];
-    [self setReloadStudentList:NO];
     
     // Add refresh control to Master table view.
     // Used to re-download the module details dictionary.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshStudentList) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
+    
+    [self addLoadingSpinner];
+    [self refreshStudentList];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    if (([self studentList] == nil) || ([self reloadStudentList] == YES)) {
-        [self addLoadingSpinner];
-        [self refreshStudentList];
-        [self setReloadStudentList:NO];
-    }
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-    [self removeLoadingSpinner];
-}
-
-// Method to re-download the student list
 - (void) refreshStudentList {
-
-    [self setStudentList:nil];
+    
+    [self setModuleList:nil];
     
     // Call method again to re-download
-    [self getStudentList];
+    [self getModuleList];
 }
 
-- (NSArray *) getStudentList {
+- (NSArray *) getModuleList {
     
     // Only download module details if it does not already exist and if a download is not currently
     // in progress.
-    if ((_studentList == nil) && ([self downloadInProgress] == NO)) {
+    if ((_moduleList == nil) && ([self downloadInProgress] == NO)) {
         
         // Create the thread
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            // Generate the URL request for the JSON data
-            NSURL *url = [NSURL URLWithString:getAllPeopleLink];
-            NSError *error;
+            NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[self username], @"username", nil];
             
-            // Get the data.
-            NSData *data = [NSData dataWithContentsOfURL:url options:kNilOptions error:&error];
+            NSError *error;
+            NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+            NSURL *url = [NSURL URLWithString:getTaughtModules];
+            
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+            [request setHTTPBody:studentData];
+            
+            NSURLResponse *response = nil;
+            error = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
             
             // Check for error while downloading.
             // If not, set bool accordingly.
@@ -94,16 +87,16 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
             }
             
             // Call fetchedModuleDetails and pass the data to be handled.
-            [self performSelectorOnMainThread:@selector(fetchedStudentList:) withObject:data waitUntilDone:YES];
+            [self performSelectorOnMainThread:@selector(fetchedModuleList:) withObject:data waitUntilDone:YES];
         });
         [self setDownloadInProgress:YES];
     }
-    return _studentList;
+    return _moduleList;
 }
 
 // Method to parse JSON.
 // Stop _studentList from being modified before fully downloaded.
-- (void) fetchedStudentList:(NSData *) data {
+- (void) fetchedModuleList:(NSData *) data {
     
     // Check if the download was interrupted or failed.
     // If so, display an error alert and instruct the user accordingly.
@@ -114,7 +107,7 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
         
         [self setDownloadInProgress:NO];
         downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Retry", nil];
+                                                         message:@"Failed to download module list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Retry", nil];
         [downloadFailedAlert show];
     }
     // Otherwise, the download was successful.
@@ -122,18 +115,17 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
         NSError *error;
         
         // Note that we are not calling the setter method here... as this would be recursive!!!
-        _studentList = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        _moduleList = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         
         // Reset the download property, as we have now finished the download.
         [self setDownloadInProgress:NO];
         
-            
+        
         // End the refresh animation of the refresh control.
         [[self refreshControl] endRefreshing];
         [self removeLoadingSpinner];
         
         [[self tableView] reloadData];
-        
     }
 }
 
@@ -154,14 +146,15 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
     [activityView removeFromSuperview];
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+/////////////////////////////////////
 #pragma mark - Table view data source
+/////////////////////////////////////
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -172,7 +165,7 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[self studentList] count];
+    return [[self moduleList] count];
 }
 
 
@@ -186,42 +179,38 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    NSDictionary *studentDetails = [[self studentList] objectAtIndex:[indexPath row]];
+    NSDictionary *moduleDict = [[self moduleList] objectAtIndex:[indexPath row]];
     
-    // Set the title of the rows with their corresponding location title
-    NSString *studentName = [studentDetails objectForKey:@"fullname"];
-    [[cell textLabel] setText:studentName];
+    // Set the main text to be the module code and the subtitle to be the module title.
+    [[cell textLabel] setText:[moduleDict objectForKey:@"code"]];
+    [[cell detailTextLabel] setText:[moduleDict objectForKey:@"title"]];
     
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *sectionTitle = [NSString stringWithFormat:@"Number of Students: %d", (int)[[self studentList] count]];
-    return sectionTitle;
+    return @"Your Modules";
 }
 
+///////////////////////////////////////
 
 // Prepare to move to new view
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [self setReloadStudentList:YES];
-    if ([[segue identifier] isEqualToString:@"studentSelected"]) {
+    if ([[segue identifier] isEqualToString:@"selectedModuleAttendance"]) {
         
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-
-        NSDictionary *studentDetails = [[self studentList] objectAtIndex:[indexPath row]];
-
         
-        int studentID = [[studentDetails objectForKey:@"id"] intValue];
-        NSArray *fullName = [[studentDetails objectForKey:@"fullname"] componentsSeparatedByString:@" "];
-        NSString *firstName = [fullName objectAtIndex:0];
-        NSString *lastName = [fullName objectAtIndex:1];
-        NSString *username = [studentDetails objectForKey:@"username"];
+        NSDictionary *moduleDetails = [[self moduleList] objectAtIndex:[indexPath row]];
         
-        [[segue destinationViewController] setStudentID:studentID];
-        [[segue destinationViewController] setReceivedFirstName:firstName];
-        [[segue destinationViewController] setReceivedLastName:lastName];
-        [[segue destinationViewController] setReceivedUsername:username];
+        
+        int moduleID = [[moduleDetails objectForKey:@"id"] intValue];
+        NSString *moduleCode = [moduleDetails objectForKey:@"code"];
+        NSString *moduleTitle = [moduleDetails objectForKey:@"title"];
+        
+        [[segue destinationViewController] setReceivedModuleID:moduleID];
+        [[segue destinationViewController] setReceivedModuleCode:moduleCode];
+        [[segue destinationViewController] setReceivedModuleTitle:moduleTitle];
         
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
                                                                                  style:UIBarButtonItemStylePlain

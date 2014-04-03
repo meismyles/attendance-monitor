@@ -10,4 +10,6 @@
 
 @interface StudentListTVC : UITableViewController
 
+@property (strong, nonatomic) NSArray *studentList;
+
 @end

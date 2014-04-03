@@ -64,47 +64,61 @@ static NSString *getUsernameLink = @"http://livattend.tk/get_username.php";
 	// Do any additional setup after loading the view.
     self.name.text = @"";
     self.confidence.text = @"";
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    imagesTaken = 1;
+    badFacePosition = 0;
+    badPositionAlertVisible = NO;
+    modelTrainPassed = NO;
     
     [self addLoadingSpinner];
     
     faceAnalyser = [[FaceAnalyser alloc] init];
     
-    modelTrainPassed = NO;
-    
-    model = cv::createLBPHFaceRecognizer();
-        
-    imagesTaken = 1;
-    badFacePosition = 0;
-    badPositionAlertVisible = NO;
+    [self setupModel];
+    [self downloadData];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-    
-    
-    ///////////
-    // NOT NEEDED RIGHT NOW - POSTING DATA FOR NO REASON
-    NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[self username], @"username", nil];
-    
-    NSError *error;
-    NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
-    NSURL *url = [NSURL URLWithString:getImagesLink];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody:studentData];
-    
-    NSURLResponse *response = nil;
-    error = nil;
-    
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [self performSelectorOnMainThread:@selector(fetchedImageArray:) withObject:data waitUntilDone:YES];
-    
-    ///////////
+- (void) viewDidDisappear:(BOOL)animated {
+    // REMOVE OVERLAY
+    [[self camera] stop];
+    [overlayImageView removeFromSuperview];
+    self.name.text = @"";
+    self.confidence.text = @"";
+}
 
+- (void)setupModel {
+    
+    model = cv::createLBPHFaceRecognizer();
+}
+
+- (void)downloadData {
+    
+    // Create the thread
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ///////////
+        // NOT NEEDED RIGHT NOW - POSTING DATA FOR NO REASON
+        NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[self username], @"username", nil];
+        
+        NSError *error;
+        NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+        NSURL *url = [NSURL URLWithString:getImagesLink];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody:studentData];
+        
+        NSURLResponse *response = nil;
+        error = nil;
+        
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        [self performSelectorOnMainThread:@selector(fetchedImageArray:) withObject:data waitUntilDone:YES];
+    });
 }
 
 - (void) fetchedImageArray:(NSData *) data {
@@ -175,9 +189,10 @@ static NSString *getUsernameLink = @"http://livattend.tk/get_username.php";
     else {
         printf("********* MODEL TRAIN FAILED *************");
     }
-    
-    ////////
-    
+    [self setupCamera];
+}
+
+- (void) setupCamera {
     [self setCamera: [[CvVideoCamera alloc] initWithParentView:[self cameraView]]];
     [[self camera] setDelegate:self];
     [[self camera] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
@@ -186,15 +201,12 @@ static NSString *getUsernameLink = @"http://livattend.tk/get_username.php";
     [[self camera] setDefaultFPS:30];
     [[self camera] setGrayscaleMode:NO];
     [[self camera] start];
-
+    
     overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView.bounds.size.width,
                                                                      self.cameraView.bounds.size.height)];
     overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
     [self.cameraView addSubview:overlayImageView];
-}
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [[self camera] stop];
 }
 
 - (void)didReceiveMemoryWarning

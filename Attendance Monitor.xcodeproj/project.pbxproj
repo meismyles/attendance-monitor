@@ -17,6 +17,9 @@
 		002DB1B218C91E0200210BBF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AC18C91E0200210BBF /* CoreMedia.framework */; };
 		002DB1B318C91E0200210BBF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AD18C91E0200210BBF /* CoreVideo.framework */; };
 		002DB1B418C91E0200210BBF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AE18C91E0200210BBF /* QuartzCore.framework */; };
+		008D303A18E74AFA008BC864 /* SelectModuleTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008D303818E74AFA008BC864 /* SelectModuleTVC.m */; };
+		008D303D18EC65F6008BC864 /* SelectModuleTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008D303C18EC65F6008BC864 /* SelectModuleTVC.xib */; };
+		008D304018ECDF0F008BC864 /* MonitorOptionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008D303F18ECDF0F008BC864 /* MonitorOptionsVC.m */; };
 		008F581C18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
 		008F581E18A3E1B90012370C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581D18A3E1B90012370C /* CoreGraphics.framework */; };
 		008F582018A3E1B90012370C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581F18A3E1B90012370C /* UIKit.framework */; };
@@ -25,7 +28,7 @@
 		008F582C18A3E1B90012370C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F582B18A3E1B90012370C /* AppDelegate.m */; };
 		008F582F18A3E1B90012370C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 008F582D18A3E1B90012370C /* Main.storyboard */; };
 		008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 008F583118A3E1B90012370C /* AddStudentVC.mm */; };
-		008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* SelectModuleVC.m */; };
+		008F583518A3E1B90012370C /* TaughtModuleTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 008F583418A3E1B90012370C /* TaughtModuleTVC.m */; };
 		008F583718A3E1B90012370C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 008F583618A3E1B90012370C /* Images.xcassets */; };
 		008F583F18A3E1B90012370C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581B18A3E1B90012370C /* Foundation.framework */; };
 		008F584018A3E1B90012370C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008F581F18A3E1B90012370C /* UIKit.framework */; };
@@ -98,6 +101,11 @@
 		002DB1AC18C91E0200210BBF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		002DB1AD18C91E0200210BBF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		002DB1AE18C91E0200210BBF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		008D303718E74AFA008BC864 /* SelectModuleTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectModuleTVC.h; sourceTree = "<group>"; };
+		008D303818E74AFA008BC864 /* SelectModuleTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectModuleTVC.m; sourceTree = "<group>"; };
+		008D303C18EC65F6008BC864 /* SelectModuleTVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectModuleTVC.xib; sourceTree = "<group>"; };
+		008D303E18ECDF0F008BC864 /* MonitorOptionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitorOptionsVC.h; sourceTree = "<group>"; };
+		008D303F18ECDF0F008BC864 /* MonitorOptionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitorOptionsVC.m; sourceTree = "<group>"; };
 		008F581818A3E1B90012370C /* Attendance Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Attendance Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F581B18A3E1B90012370C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		008F581D18A3E1B90012370C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -111,8 +119,8 @@
 		008F582E18A3E1B90012370C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		008F583018A3E1B90012370C /* AddStudentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddStudentVC.h; sourceTree = "<group>"; };
 		008F583118A3E1B90012370C /* AddStudentVC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AddStudentVC.mm; sourceTree = "<group>"; };
-		008F583318A3E1B90012370C /* SelectModuleVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectModuleVC.h; sourceTree = "<group>"; };
-		008F583418A3E1B90012370C /* SelectModuleVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectModuleVC.m; sourceTree = "<group>"; };
+		008F583318A3E1B90012370C /* TaughtModuleTVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaughtModuleTVC.h; sourceTree = "<group>"; };
+		008F583418A3E1B90012370C /* TaughtModuleTVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaughtModuleTVC.m; sourceTree = "<group>"; };
 		008F583618A3E1B90012370C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		008F583C18A3E1B90012370C /* Attendance MonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Attendance MonitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		008F584518A3E1B90012370C /* Attendance MonitorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Attendance MonitorTests-Info.plist"; sourceTree = "<group>"; };
@@ -230,6 +238,7 @@
 				008F583118A3E1B90012370C /* AddStudentVC.mm */,
 				00CC121218E0FBA40014099D /* EditStudentVC.h */,
 				00CC121318E0FBA40014099D /* EditStudentVC.m */,
+				008D303618E74350008BC864 /* Modal Module */,
 				00F8C3E018B9054800E01DB6 /* CaptureImagesVC.h */,
 				00F8C3E118B9054800E01DB6 /* CaptureImagesVC.mm */,
 			);
@@ -239,12 +248,24 @@
 		0001FA0E18D7BB7000968F11 /* Take Attendance */ = {
 			isa = PBXGroup;
 			children = (
-				008F583318A3E1B90012370C /* SelectModuleVC.h */,
-				008F583418A3E1B90012370C /* SelectModuleVC.m */,
+				008F583318A3E1B90012370C /* TaughtModuleTVC.h */,
+				008F583418A3E1B90012370C /* TaughtModuleTVC.m */,
+				008D303E18ECDF0F008BC864 /* MonitorOptionsVC.h */,
+				008D303F18ECDF0F008BC864 /* MonitorOptionsVC.m */,
 				00AFDE3718DD11D100056D61 /* ScanVC.h */,
 				00AFDE3818DD11D100056D61 /* ScanVC.mm */,
 			);
 			name = "Take Attendance";
+			sourceTree = "<group>";
+		};
+		008D303618E74350008BC864 /* Modal Module */ = {
+			isa = PBXGroup;
+			children = (
+				008D303718E74AFA008BC864 /* SelectModuleTVC.h */,
+				008D303818E74AFA008BC864 /* SelectModuleTVC.m */,
+				008D303C18EC65F6008BC864 /* SelectModuleTVC.xib */,
+			);
+			name = "Modal Module";
 			sourceTree = "<group>";
 		};
 		008F580F18A3E1B90012370C = {
@@ -509,6 +530,7 @@
 				0001FA1018D7E9BA00968F11 /* haarcascade_frontalface_alt.xml in Resources */,
 				00CC126318E10B930014099D /* Lato-BoldItalic.ttf in Resources */,
 				00CC121818E0FE2C0014099D /* people2x.png in Resources */,
+				008D303D18EC65F6008BC864 /* SelectModuleTVC.xib in Resources */,
 				008F583718A3E1B90012370C /* Images.xcassets in Resources */,
 				0001FA0C18D7BAF900968F11 /* haarcascade_frontalface_default.xml in Resources */,
 				008F582618A3E1B90012370C /* InfoPlist.strings in Resources */,
@@ -542,9 +564,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008D304018ECDF0F008BC864 /* MonitorOptionsVC.m in Sources */,
 				00CC124218E10B570014099D /* FUIAlertView.m in Sources */,
 				00F8C3E218B9054800E01DB6 /* CaptureImagesVC.mm in Sources */,
-				008F583518A3E1B90012370C /* SelectModuleVC.m in Sources */,
+				008F583518A3E1B90012370C /* TaughtModuleTVC.m in Sources */,
 				00CC125318E10B570014099D /* UITableViewCell+FlatUI.m in Sources */,
 				00CC124618E10B570014099D /* FUISegmentedControl.m in Sources */,
 				00AFDE3C18DD250D00056D61 /* FaceAnalyser.mm in Sources */,
@@ -559,6 +582,7 @@
 				00CC125018E10B570014099D /* UISlider+FlatUI.m in Sources */,
 				00CC124C18E10B570014099D /* UIImage+FlatUI.m in Sources */,
 				00CC124B18E10B570014099D /* UIFont+FlatUI.m in Sources */,
+				008D303A18E74AFA008BC864 /* SelectModuleTVC.m in Sources */,
 				00CC124D18E10B570014099D /* UINavigationBar+FlatUI.m in Sources */,
 				00CC125418E10B570014099D /* UIToolbar+FlatUI.m in Sources */,
 				008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */,
