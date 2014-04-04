@@ -27,7 +27,6 @@
         <!--Navigation Controller - Add/Edit Students-->
         <scene sceneID="jRl-Xh-T1X">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H4U-qd-RUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="wUi-Ty-Sxt" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Add/Edit Students" image="people.png" id="9jV-tl-GSL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GBe-Aj-YYA">
@@ -37,6 +36,7 @@
                         <segue destination="AnD-ZB-Zsa" kind="relationship" relationship="rootViewController" id="YrS-0B-A5q"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H4U-qd-RUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="148" y="-678"/>
         </scene>
@@ -537,6 +537,7 @@
                         <outlet property="moduleTitle" destination="VDZ-q8-JgJ" id="8NC-0J-Nu1"/>
                         <outlet property="prevLecture" destination="iPN-pU-4B6" id="gQg-GE-Q3E"/>
                         <segue destination="7bb-hI-B9h" kind="push" identifier="singleScanSegue" id="dPp-ba-dQN"/>
+                        <segue destination="SQr-zz-SCs" kind="push" identifier="multiScanSegue" id="tsv-SM-Ove"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B4b-bq-kol" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -659,7 +660,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DxF-YP-HyB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2128" y="164"/>
+            <point key="canvasLocation" x="2124" y="880"/>
         </scene>
         <!--Navigation Controller - Monitor Attendance-->
         <scene sceneID="H7y-7F-MEo">
@@ -690,20 +691,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AXP-SH-S8f">
-                                <rect key="frame" x="0.0" y="64" width="320" height="425"/>
+                                <rect key="frame" x="0.0" y="61" width="320" height="425"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photos taken: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="482-M7-A47">
-                                <rect key="frame" x="8" y="498" width="137" height="19"/>
+                                <rect key="frame" x="92" y="494" width="137" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbR-Ff-0ND">
-                                <rect key="frame" x="182" y="497" width="118" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -718,9 +712,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="cameraView" destination="AXP-SH-S8f" id="5Mm-Hp-ose"/>
+                        <outlet property="cameraView1" destination="AXP-SH-S8f" id="Xdn-ns-kSl"/>
                         <outlet property="photosTaken" destination="482-M7-A47" id="3xT-3i-KgF"/>
-                        <outlet property="test" destination="dbR-Ff-0ND" id="Exc-XP-BqU"/>
                         <outlet property="view" destination="AXP-SH-S8f" id="J02-L1-erD"/>
                     </connections>
                 </viewController>
@@ -744,14 +737,8 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="425"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Confidence: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pwo-wv-Vsx">
-                                <rect key="frame" x="163" y="492" width="148" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5q-VA-zta">
-                                <rect key="frame" x="9" y="492" width="146" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5q-VA-zta">
+                                <rect key="frame" x="20" y="493" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -764,15 +751,14 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="cameraView" destination="OfN-jc-DN1" id="qpA-82-CvX"/>
-                        <outlet property="confidence" destination="Pwo-wv-Vsx" id="Cas-pV-lPJ"/>
+                        <outlet property="cameraView2" destination="OfN-jc-DN1" id="azu-1U-6cn"/>
                         <outlet property="name" destination="n5q-VA-zta" id="Lat-5K-8pv"/>
                         <outlet property="view" destination="OfN-jc-DN1" id="0cV-2a-meH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JKt-6z-Bii" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2128" y="840"/>
+            <point key="canvasLocation" x="2124" y="134"/>
         </scene>
         <!--LoginVC - Login-->
         <scene sceneID="75v-pB-qiI">
@@ -844,7 +830,6 @@
         <!--Navigation Controller-->
         <scene sceneID="78u-Vq-dYH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h4f-rW-k8L" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="heT-4g-1XJ" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="P7D-4B-KCy">
                         <autoresizingMask key="autoresizingMask"/>
@@ -853,8 +838,56 @@
                         <segue destination="8o9-cV-ffO" kind="relationship" relationship="rootViewController" id="sYM-0z-6RF"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h4f-rW-k8L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1377" y="134"/>
+        </scene>
+        <!--Multi ScanVC - Capture Face-->
+        <scene sceneID="cGA-qD-meg">
+            <objects>
+                <viewController id="SQr-zz-SCs" customClass="MultiScanVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GrZ-FA-Rhd"/>
+                        <viewControllerLayoutGuide type="bottom" id="fZU-Oh-ljy"/>
+                    </layoutGuides>
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="zrr-K6-yHQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F7c-ZP-T4j">
+                                <rect key="frame" x="0.0" y="64" width="320" height="425"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZ9-fd-KXN">
+                                <rect key="frame" x="20" y="495" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Capture Face" id="5b3-cX-a8A">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="oqI-19-vHx">
+                            <connections>
+                                <segue destination="obs-D9-Cxo" kind="push" identifier="finishAttendanceMonitor2" id="dHK-qh-w9H"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cameraView3" destination="F7c-ZP-T4j" id="ozu-wZ-vcw"/>
+                        <outlet property="doneButton" destination="oqI-19-vHx" id="2Ld-sk-cLf"/>
+                        <outlet property="name" destination="dZ9-fd-KXN" id="tjI-eX-53x"/>
+                        <outlet property="view" destination="F7c-ZP-T4j" id="6IS-Vz-Uyh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x2x-p4-Y4U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1585" y="1180"/>
         </scene>
     </scenes>
     <resources>
@@ -868,5 +901,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="6NC-DL-dkN"/>
+        <segue reference="dHK-qh-w9H"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -13,8 +13,8 @@
 
 @interface CaptureImagesVC : UIViewController <CvVideoCameraDelegate>
 
-@property (strong, nonatomic) IBOutlet UIImageView *cameraView;
-@property (nonatomic, retain) IBOutlet CvVideoCamera *camera;
+@property (strong, nonatomic) IBOutlet UIImageView *cameraView1;
+@property (nonatomic, retain) IBOutlet CvVideoCamera *camera1;
 @property (strong, nonatomic) IBOutlet UILabel *photosTaken;
 @property (strong, nonatomic) NSString *username;
 

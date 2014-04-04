@@ -16,6 +16,8 @@ static NSString *addLectureLink = @"http://livattend.tk/add_lecture.php";
     UIAlertView *checkCancel;
 }
 
+@property (assign, nonatomic) BOOL singleScan;
+
 @end
 
 @implementation MonitorOptionsVC
@@ -63,8 +65,16 @@ static NSString *addLectureLink = @"http://livattend.tk/add_lecture.php";
     else {
         cell = [[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         if ([cell accessoryType] == UITableViewCellAccessoryCheckmark) {
+            [self setSingleScan:YES];
             checkMonitorSettings = [[UIAlertView alloc] initWithTitle:@"Are you sure?"
                                                                    message:@"Do you wish to continue with the selected monitoring options.\nThese cannot be changed." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", @"Cancel", nil];
+            [checkMonitorSettings show];
+            
+        }
+        else {
+            [self setSingleScan:NO];
+            checkMonitorSettings = [[UIAlertView alloc] initWithTitle:@"Are you sure?"
+                                                              message:@"Do you wish to continue with the selected monitoring options.\nThese cannot be changed." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", @"Cancel", nil];
             [checkMonitorSettings show];
         }
     }
@@ -135,8 +145,9 @@ static NSString *addLectureLink = @"http://livattend.tk/add_lecture.php";
         [[segue destinationViewController] setReceivedModuleCode:[self receivedModuleCode]];
     }
     else if ([[segue identifier] isEqualToString:@"multiScanSegue"]) {
-        
-        
+        [[segue destinationViewController] setReceivedLectureID:nextLectureID];
+        [[segue destinationViewController] setReceivedModuleID:[self receivedModuleID]];
+        [[segue destinationViewController] setReceivedModuleCode:[self receivedModuleCode]];
     }
 }
 
@@ -169,7 +180,13 @@ static NSString *addLectureLink = @"http://livattend.tk/add_lecture.php";
             error = nil;
             
             [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            [self performSegueWithIdentifier: @"singleScanSegue" sender:self];
+            
+            if ([self singleScan]) {
+                [self performSegueWithIdentifier: @"singleScanSegue" sender:self];
+            }
+            else {
+                [self performSegueWithIdentifier: @"multiScanSegue" sender:self];
+            }
         }
     }
     if (alertView == checkCancel) {

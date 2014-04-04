@@ -50,6 +50,13 @@ static NSString *addAttendanceLink = @"http://livattend.tk/add_attendance.php";
     self.saveDataButton.titleLabel.font = [UIFont boldFlatFontOfSize:16];
     self.saveDataButton.highlightedColor = [UIColor blackColor];
     
+    
+    NSString *prevVCName = NSStringFromClass([[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2] class]);
+    
+    if ([prevVCName isEqualToString:@"MultiScanVC"]) {
+        [self.navigationItem setHidesBackButton:YES];
+    }
+    
 }
 
 - (IBAction)uploadData {

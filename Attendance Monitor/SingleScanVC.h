@@ -14,15 +14,11 @@
 
 @interface SingleScanVC : UIViewController <CvVideoCameraDelegate>
 
-@property (strong, nonatomic) IBOutlet UIImageView *cameraView;
-@property (nonatomic, retain) IBOutlet CvVideoCamera *camera;
+@property (strong, nonatomic) IBOutlet UIImageView *cameraView2;
+@property (nonatomic, retain) IBOutlet CvVideoCamera *camera2;
 @property (strong, nonatomic) IBOutlet UILabel *confidence;
 @property (strong, nonatomic) IBOutlet UILabel *name;
 
 @property (strong, nonatomic) NSMutableDictionary *studentDetails;
-
-
-@property (strong, nonatomic) IBOutlet UILabel *test;
-
 
 @end

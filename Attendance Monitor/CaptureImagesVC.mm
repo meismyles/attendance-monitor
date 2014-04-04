@@ -69,26 +69,26 @@ static NSString *addImageLink = @"http://livattend.tk/add_images.php";
     [self setUserID:[responseData intValue]];
     
     // Set up camera
-	[self setCamera: [[CvVideoCamera alloc] initWithParentView:[self cameraView]]];
-    [[self camera] setDelegate:self];
-    [[self camera] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
-    [[self camera] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
-    [[self camera] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
-    [[self camera] setDefaultFPS:30];
-    [[self camera] setGrayscaleMode:NO];
-    [[self camera] start];
+	[self setCamera1: [[CvVideoCamera alloc] initWithParentView:[self cameraView1]]];
+    [[self camera1] setDelegate:self];
+    [[self camera1] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
+    [[self camera1] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
+    [[self camera1] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
+    [[self camera1] setDefaultFPS:30];
+    [[self camera1] setGrayscaleMode:NO];
+    [[self camera1] start];
     
     
     // Set up camera overlay
-    overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView.bounds.size.width,
-                                                                                        self.cameraView.bounds.size.height)];
+    overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView1.bounds.size.width,
+                                                                                        self.cameraView1.bounds.size.height)];
     overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
-    [self.cameraView addSubview:overlayImageView];
+    [self.cameraView1 addSubview:overlayImageView];
      
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[self camera] stop];
+    [[self camera1] stop];
 }
 
 

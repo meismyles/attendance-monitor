@@ -1,19 +1,21 @@
 //
-//  SingleScanVC.mm
+//  MultiScanVC.m
 //  Attendance Monitor
 //
-//  Created by Myles Ringle on 03/04/2014.
+//  Created by Myles Ringle on 04/04/2014.
 //  Copyright (c) 2014 Myles Ringle. All rights reserved.
 //
 
-#import "SingleScanVC.h"
+#import "MultiScanVC.h"
 #import "FaceAnalyser.hh"
 
-static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.php";
+static NSString *getImagesLink = @"http://livattend.tk/get_images.php";
+static NSString *getStudentsLink = @"http://livattend.tk/get_students_for_module.php";
 
-@interface SingleScanVC () {
+@interface MultiScanVC () {
     UIActivityIndicatorView *activityView;
     UIAlertView *instructionAlert;
+    UIAlertView *attendanceRecorded;
     
     int currentFrame;
     int imagesTaken;
@@ -36,25 +38,36 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     int matches;
 }
 
-@property (strong, nonatomic) NSArray *imageArray;
+@property (strong, nonatomic) NSMutableArray *imageArray;
 @property (assign, nonatomic) NSString *fullname;
 @property (assign, nonatomic) int studentID;
 
 @property (assign, nonatomic) BOOL recordSuccessful;
+@property (strong, nonatomic) NSMutableArray *studentList;
+@property (assign, nonatomic) BOOL downloadInProgress;
+@property (assign, nonatomic) BOOL downloadFailed;
+
+@property (strong, nonatomic) NSMutableDictionary *studentDetails;
 
 @end
 
-@implementation SingleScanVC
+@implementation MultiScanVC
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self setStudentID:[[[self studentDetails] objectForKey:@"id"] intValue]];
-    [self setFullname:[[self studentDetails] objectForKey:@"fullname"]];
+    [self.navigationItem setHidesBackButton:YES];
+    [[[[[[self navigationController] tabBarController] tabBar] items] objectAtIndex:0] setEnabled:NO];
+    [[[[[[self navigationController] tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
+    [[self doneButton] setEnabled:NO];
     
     self.name.text = @"";
     self.confidence.text = @"";
+    
+    [self setupModel];
+    [self getStudentList];
+    [self downloadData];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -69,22 +82,14 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     
     faceAnalyser = [[FaceAnalyser alloc] init];
     
-    [self setupModel];
-    [self downloadData];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
     // REMOVE OVERLAY
-    [[self camera2] stop];
+    [[self camera3] stop];
     [overlayImageView removeFromSuperview];
     self.name.text = @"";
     self.confidence.text = @"";
-    
-    if ([self recordSuccessful] == YES) {
-        UIAlertView *attendanceRecorded = [[UIAlertView alloc] initWithTitle:@"Attendance Recorded"
-                                                                     message:@"Your attendance has been successfully recorded.\nPlease pass the device to the next person." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [attendanceRecorded show];
-    }
 }
 
 - (void) addLoadingSpinner {
@@ -92,12 +97,12 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [activityView setColor:[UIColor grayColor]];
     
-    activityView.center = CGPointMake(self.cameraView2.frame.size.width/2,
-                                      self.cameraView2.frame.size.height/2);
+    activityView.center = CGPointMake(self.cameraView3.frame.size.width/2,
+                                      self.cameraView3.frame.size.height/2);
     [activityView startAnimating];
     
     
-    [self.cameraView2 addSubview:activityView];
+    [self.cameraView3 addSubview:activityView];
 }
 
 - (void) removeLoadingSpinner {
@@ -110,30 +115,84 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     model = cv::createLBPHFaceRecognizer();
 }
 
+- (NSArray *) getStudentList {
+    
+    // Only download module details if it does not already exist and if a download is not currently
+    // in progress.
+    if ((_studentList == nil) && ([self downloadInProgress] == NO)) {
+        
+        // Create the thread
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[self receivedModuleID]], @"moduleID", nil];
+            
+            NSError *error;
+            NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+            NSURL *url = [NSURL URLWithString:getStudentsLink];
+            
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
+            [request setHTTPBody:studentData];
+            
+            NSURLResponse *response = nil;
+            error = nil;
+            
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            // Check for error while downloading.
+            // If not, set bool accordingly.
+            if (error == nil) {
+                [self setDownloadFailed:NO];
+            }
+            
+            // Call fetchedModuleDetails and pass the data to be handled.
+            [self performSelectorOnMainThread:@selector(fetchedStudentList:) withObject:data waitUntilDone:YES];
+        });
+        [self setDownloadInProgress:YES];
+    }
+    return _studentList;
+}
+
+// Method to parse JSON.
+// Stop _studentList from being modified before fully downloaded.
+- (void) fetchedStudentList:(NSData *) data {
+    
+    // Check if the download was interrupted or failed.
+    // If so, display an error alert and instruct the user accordingly.
+    if ((data == nil) || ([self downloadFailed])) {
+        // End the refresh animation of the refresh control.
+        [self removeLoadingSpinner];
+        
+        [self setDownloadInProgress:NO];
+        downloadFailedAlert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:@"Failed to download student list.\nPlease check your network connection or push retry to try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Retry", nil];
+        [downloadFailedAlert show];
+    }
+    // Otherwise, the download was successful.
+    else {
+        NSError *error;
+        
+        // Note that we are not calling the setter method here... as this would be recursive!!!
+        _studentList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        
+        // Reset the download property, as we have now finished the download.
+        [self setDownloadInProgress:NO];
+    }
+}
+
 - (void)downloadData {
     
     // Create the thread
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        ///////////
-        // NOT NEEDED RIGHT NOW - POSTING DATA FOR NO REASON
-        NSDictionary *studentDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[self studentID]], @"studentID", nil];
-
-        NSError *error;
-        NSData *studentData =[NSJSONSerialization dataWithJSONObject:studentDict options:0 error:&error];
+        // Generate the URL request for the JSON data
         NSURL *url = [NSURL URLWithString:getImagesLink];
+        NSError *error;
         
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%d", (int)studentData.length] forHTTPHeaderField:@"Content-Length"];
-        [request setHTTPBody:studentData];
-        
-        NSURLResponse *response = nil;
-        error = nil;
-        
-        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSData *data = [NSData dataWithContentsOfURL:url options:kNilOptions error:&error];
         [self performSelectorOnMainThread:@selector(fetchedImageArray:) withObject:data waitUntilDone:YES];
     });
 }
@@ -153,7 +212,7 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
         NSError *error;
         
         // Note that we are not calling the setter method here... as this would be recursive!!!
-        _imageArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        _imageArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         
         // Reset the download property, as we have now finished the download.
         // [self setDownloadInProgress:NO];
@@ -167,12 +226,12 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
             [self removeLoadingSpinner];
             
             [self downloadComplete];
-            
+            [[self doneButton] setEnabled:YES];
         }
         else {
             [self removeLoadingSpinner];
             instructionAlert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                       message:@"No facial data for the selected student." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                                          message:@"No facial data for the selected student." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [instructionAlert show];
         }
     }
@@ -187,6 +246,8 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     for (int i = 0; i < [[self imageArray] count]; i++) {
         NSDictionary *imageDict = [[self imageArray] objectAtIndex:i];
         
+        int studentID = [[imageDict objectForKey:@"user_id"] intValue];
+        
         // Pull out the image into NSData
         NSString *theString = [imageDict objectForKey:@"image"];
         NSData *imageData = [[NSData alloc] initWithBase64EncodedString:theString
@@ -199,7 +260,7 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
         
         // Put this image into the model
         images.push_back(faceData);
-        labels.push_back([self studentID]);
+        labels.push_back(studentID);
     }
     
     
@@ -214,19 +275,19 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
 }
 
 - (void) setupCamera {
-    [self setCamera2: [[CvVideoCamera alloc] initWithParentView:[self cameraView2]]];
-    [[self camera2] setDelegate:self];
-    [[self camera2] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
-    [[self camera2] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
-    [[self camera2] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
-    [[self camera2] setDefaultFPS:30];
-    [[self camera2] setGrayscaleMode:NO];
-    [[self camera2] start];
+    [self setCamera3: [[CvVideoCamera alloc] initWithParentView:[self cameraView3]]];
+    [[self camera3] setDelegate:self];
+    [[self camera3] setDefaultAVCaptureDevicePosition:AVCaptureDevicePositionFront];
+    [[self camera3] setDefaultAVCaptureSessionPreset:AVCaptureSessionPreset640x480];
+    [[self camera3] setDefaultAVCaptureVideoOrientation:AVCaptureVideoOrientationPortrait];
+    [[self camera3] setDefaultFPS:30];
+    [[self camera3] setGrayscaleMode:NO];
+    [[self camera3] start];
     
-    overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView2.bounds.size.width,
-                                                                     self.cameraView2.bounds.size.height)];
+    overlayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.cameraView3.bounds.size.width,
+                                                                     self.cameraView3.bounds.size.height)];
     overlayImageView.image = [UIImage imageNamed:@"Overlay-NoFace.png"];
-    [self.cameraView2 addSubview:overlayImageView];
+    [self.cameraView3 addSubview:overlayImageView];
     
 }
 
@@ -294,13 +355,18 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
                     double confidence = 0.0;
                     
                     model->predict(croppedFace, predictedLabel, confidence);
-                    
+
                     if (confidence < 28) {
                         NSString *personName = @"";
                         
                         // If a match was found, lookup the person's name
                         if (predictedLabel != -1) {
-                            personName = [self fullname];
+                            for (int i = 0; i < [[self studentList] count]; i++) {
+                                NSDictionary *temp = [[self studentList] objectAtIndex:i];
+                                if ([[temp objectForKey:@"id"] intValue] == predictedLabel) {
+                                    personName = [temp objectForKey:@"fullname"];
+                                }
+                            }
                         }
                         
                         NSDictionary *match = @{
@@ -313,6 +379,7 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
                         if ([match objectForKey:@"personID"] != [NSNumber numberWithInt:-1]) {
                             
                             message = [match objectForKey:@"personName"];
+                            [self setStudentID:[[match objectForKey:@"personID"] intValue]];
                             
                             NSNumberFormatter *confidenceFormatter = [[NSNumberFormatter alloc] init];
                             [confidenceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -330,9 +397,16 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
                 // All changes to the UI have to happen on the main thread
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     if (matches > 3) {
+                        for (int i = 0; i < [[self studentList] count]; i++) {
+                            if ([[[[self studentList] objectAtIndex:i] objectForKey:@"id"] intValue] == [self studentID]) {
+                                [self setStudentDetails:[[self studentList] objectAtIndex:i]];
+                                break;
+                            }
+                        }
+                        
                         [[self studentDetails] setObject:[NSNumber numberWithInt:1] forKey:@"status"];
-                        [self setRecordSuccessful:YES];
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self recognisedUser:[self studentID]];
+                        matches = 0;
                     }
                     else {
                         self.name.text = message;
@@ -349,6 +423,37 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     }
 }
 
+- (void) recognisedUser:(int)userID {
+    [[self camera3] stop];
+    [overlayImageView removeFromSuperview];
+    self.confidence.text = @"";
+    
+    for (int i = 0; i < [[self imageArray] count]; i++) {
+        NSDictionary *imageDict = [[self imageArray] objectAtIndex:i];
+        
+        if ([[imageDict objectForKey:@"user_id"] intValue] == userID) {
+            [[self imageArray] removeObjectAtIndex:i];
+        }
+    }
+    
+    attendanceRecorded = [[UIAlertView alloc] initWithTitle:self.name.text
+                                                                 message:@"Your attendance has been successfully recorded.\nPlease pass the device to the next person." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [attendanceRecorded show];
+    
+    self.name.text = @"";
+
+}
+
+// Prepare to move to new view
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"finishAttendanceMonitor2"]) {
+        
+        [[segue destinationViewController] setReceivedModuleID:[self receivedModuleID]];
+        [[segue destinationViewController] setReceivedLectureID:[self receivedLectureID]];
+        [[segue destinationViewController] setStudentList:[self studentList]];
+        
+    }
+}
 
 //==============================================================================
 #pragma mark - Error Handling
@@ -365,6 +470,11 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
     if (alertView == instructionAlert) {
         if (buttonIndex == 0) {
             [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    if (alertView == attendanceRecorded) {
+        if (buttonIndex == 0) {
+            [self downloadComplete];
         }
     }
     
