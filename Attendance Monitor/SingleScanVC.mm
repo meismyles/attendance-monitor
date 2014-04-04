@@ -171,7 +171,6 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
         }
         else {
             [self removeLoadingSpinner];
-            [[self studentDetails] setObject:[NSNumber numberWithInt:2] forKey:@"status"];
             instructionAlert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                        message:@"No facial data for the selected student." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
             [instructionAlert show];
@@ -296,7 +295,7 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
                     
                     model->predict(croppedFace, predictedLabel, confidence);
                     
-                    if (confidence < 32) {
+                    if (confidence < 28) {
                         NSString *personName = @"";
                         
                         // If a match was found, lookup the person's name
@@ -312,20 +311,17 @@ static NSString *getImagesLink = @"http://livattend.tk/get_images_for_student.ph
                         
                         // Match found
                         if ([match objectForKey:@"personID"] != [NSNumber numberWithInt:-1]) {
-                            int confidenceNumber = [[match objectForKey:@"confidence"] intValue];
-                            if (confidenceNumber <= 1500) {
-                                
-                                message = [match objectForKey:@"personName"];
-                                
-                                NSNumberFormatter *confidenceFormatter = [[NSNumberFormatter alloc] init];
-                                [confidenceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                                confidenceFormatter.maximumFractionDigits = 0;
-                                
-                                confidenceLabelString = [NSString stringWithFormat:@"%@",
-                                                         [confidenceFormatter stringFromNumber:[match objectForKey:@"confidence"]]];
-                                
-                                matches++;
-                            }
+                            
+                            message = [match objectForKey:@"personName"];
+                            
+                            NSNumberFormatter *confidenceFormatter = [[NSNumberFormatter alloc] init];
+                            [confidenceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                            confidenceFormatter.maximumFractionDigits = 0;
+                            
+                            confidenceLabelString = [NSString stringWithFormat:@"%@",
+                                                     [confidenceFormatter stringFromNumber:[match objectForKey:@"confidence"]]];
+                            
+                            matches++;
                         }
                     }
                     

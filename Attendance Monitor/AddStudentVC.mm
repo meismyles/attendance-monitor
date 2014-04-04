@@ -65,7 +65,6 @@ static NSString *getModuleList = @"http://livattend.tk/get_modules.php";
     self.selectModulesButton.buttonColor = [UIColor concreteColor];
     self.selectModulesButton.shadowColor = [UIColor asbestosColor];
     self.selectModulesButton.shadowHeight = 3.0f;
-    self.selectModulesButton.cornerRadius = 6.0f;
     self.selectModulesButton.titleLabel.font = [UIFont boldFlatFontOfSize:16];
     self.selectModulesButton.highlightedColor = [UIColor blackColor];
     

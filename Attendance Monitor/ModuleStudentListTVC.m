@@ -236,6 +236,17 @@ static NSString *getStudentsLink = @"http://livattend.tk/get_students_for_module
                                                                                 target:nil
                                                                                 action:nil];
     }
+    if ([[segue identifier] isEqualToString:@"finishAttendanceMonitor"]) {
+        
+        [[segue destinationViewController] setReceivedModuleID:[self receivedModuleID]];
+        [[segue destinationViewController] setReceivedLectureID:[self receivedLectureID]];
+        [[segue destinationViewController] setStudentList:[self studentList]];
+        
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:nil
+                                                                                action:nil];
+    }
 }
 
 

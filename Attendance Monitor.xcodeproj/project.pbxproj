@@ -12,6 +12,7 @@
 		0001FA1318DBBCBB00968F11 /* Overlay-Face.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA1118DBBCBB00968F11 /* Overlay-Face.png */; };
 		0001FA1418DBBCBB00968F11 /* Overlay-NoFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */; };
 		001689AF18EDC68F005A8DB9 /* SingleScanVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 001689AE18EDC68F005A8DB9 /* SingleScanVC.mm */; };
+		001689B218EDFC04005A8DB9 /* UploadDataVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 001689B118EDFC04005A8DB9 /* UploadDataVC.m */; };
 		002DB1AF18C91E0200210BBF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1A918C91E0200210BBF /* Accelerate.framework */; };
 		002DB1B018C91E0200210BBF /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */; };
 		002DB1B118C91E0200210BBF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AB18C91E0200210BBF /* CoreImage.framework */; };
@@ -99,6 +100,8 @@
 		0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Overlay-NoFace.png"; path = "Attendance Monitor/Images/Overlay-NoFace.png"; sourceTree = "<group>"; };
 		001689AD18EDC68F005A8DB9 /* SingleScanVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleScanVC.h; sourceTree = "<group>"; };
 		001689AE18EDC68F005A8DB9 /* SingleScanVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SingleScanVC.mm; sourceTree = "<group>"; };
+		001689B018EDFC04005A8DB9 /* UploadDataVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadDataVC.h; sourceTree = "<group>"; };
+		001689B118EDFC04005A8DB9 /* UploadDataVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadDataVC.m; sourceTree = "<group>"; };
 		002DB1A918C91E0200210BBF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		002DB1AB18C91E0200210BBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -262,6 +265,8 @@
 				008D304218ED2F4B008BC864 /* ModuleStudentListTVC.m */,
 				001689AD18EDC68F005A8DB9 /* SingleScanVC.h */,
 				001689AE18EDC68F005A8DB9 /* SingleScanVC.mm */,
+				001689B018EDFC04005A8DB9 /* UploadDataVC.h */,
+				001689B118EDFC04005A8DB9 /* UploadDataVC.m */,
 			);
 			name = "Take Attendance";
 			sourceTree = "<group>";
@@ -598,6 +603,7 @@
 				00CC125418E10B570014099D /* UIToolbar+FlatUI.m in Sources */,
 				008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */,
 				00CC124E18E10B570014099D /* UIPopoverController+FlatUI.m in Sources */,
+				001689B218EDFC04005A8DB9 /* UploadDataVC.m in Sources */,
 				00CC124418E10B570014099D /* FUICellBackgroundView.m in Sources */,
 				00CC125218E10B570014099D /* UITabBar+FlatUI.m in Sources */,
 				00CC124A18E10B570014099D /* UIColor+FlatUI.m in Sources */,

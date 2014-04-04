@@ -159,7 +159,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3c-fp-0UF" customClass="FUIButton">
-                                <rect key="frame" x="10" y="344" width="301" height="45"/>
+                                <rect key="frame" x="26" y="344" width="269" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Capture New Images">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -169,15 +169,15 @@
                                     <segue destination="Dzl-6f-wRG" kind="push" identifier="editCaptureImagesSegue" id="6NC-DL-dkN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-YL-7Xj" customClass="FUIButton">
-                                <rect key="frame" x="10" y="408" width="301" height="45"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfF-W6-VMr" customClass="FUIButton">
+                                <rect key="frame" x="26" y="407" width="269" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Select Modules">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="showSelectModuleList:" destination="iOc-F0-fQ9" eventType="touchUpInside" id="ael-Qf-9nb"/>
+                                    <action selector="showSelectModuleList:" destination="iOc-F0-fQ9" eventType="touchUpInside" id="hQm-c4-2Z2"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -195,7 +195,7 @@
                         <outlet property="firstName" destination="HG0-gs-oAR" id="ftA-e7-1CE"/>
                         <outlet property="lastName" destination="9Fy-gb-Vfz" id="az9-CM-6ZM"/>
                         <outlet property="passwordField" destination="LPc-jO-nDh" id="U2Y-0L-ael"/>
-                        <outlet property="selectModulesButton" destination="oBE-YL-7Xj" id="hrb-H3-QZT"/>
+                        <outlet property="selectModulesButton" destination="cfF-W6-VMr" id="cM1-mo-gkG"/>
                         <outlet property="usernameField" destination="61J-Fr-wQZ" id="8VH-rp-RwQ"/>
                     </connections>
                 </viewController>
@@ -276,7 +276,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tjj-A6-XPC" customClass="FUIButton">
-                                <rect key="frame" x="10" y="322" width="301" height="45"/>
+                                <rect key="frame" x="31" y="322" width="269" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Select Modules">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -584,11 +584,81 @@
                             <outlet property="delegate" destination="7bb-hI-B9h" id="7qB-Yv-sNY"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="COMPXXX Student List" id="mDi-Tc-xN7"/>
+                    <navigationItem key="navigationItem" title="COMPXXX Student List" id="mDi-Tc-xN7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="iDq-gr-eQp">
+                            <connections>
+                                <segue destination="obs-D9-Cxo" kind="push" identifier="finishAttendanceMonitor" id="9Bd-U6-JfM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVI-Ie-cIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1585" y="422"/>
+        </scene>
+        <!--Upload DataVC - Finish-->
+        <scene sceneID="KpX-lb-vUs">
+            <objects>
+                <viewController id="obs-D9-Cxo" customClass="UploadDataVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Kqc-lV-Nhq"/>
+                        <viewControllerLayoutGuide type="bottom" id="DRf-MB-KTl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KsH-1e-slX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="irC-x7-vMw">
+                                <rect key="frame" x="37" y="118" width="250" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Sf7-6F-i50">
+                                <rect key="frame" x="37" y="160" width="250" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter your credentials..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="UkP-2X-8x2">
+                                <rect key="frame" x="22" y="80" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This will upload attendance data to server." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="La6-eZ-pJ6">
+                                <rect key="frame" x="-2" y="285" width="324" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.39443674400000001" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrL-kg-33G" customClass="FUIButton">
+                                <rect key="frame" x="37" y="236" width="250" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Upload Data">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="uploadData" destination="obs-D9-Cxo" eventType="touchUpInside" id="jMC-xH-b0N"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Finish" id="szE-BS-PSH"/>
+                    <connections>
+                        <outlet property="password" destination="Sf7-6F-i50" id="ZBK-fJ-bzU"/>
+                        <outlet property="saveDataButton" destination="jrL-kg-33G" id="APD-50-05b"/>
+                        <outlet property="username" destination="irC-x7-vMw" id="0nT-C6-IrX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DxF-YP-HyB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2128" y="164"/>
         </scene>
         <!--Navigation Controller - Monitor Attendance-->
         <scene sceneID="H7y-7F-MEo">
@@ -701,7 +771,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JKt-6z-Bii" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2080" y="422"/>
+            <point key="canvasLocation" x="2128" y="840"/>
         </scene>
     </scenes>
     <resources>
@@ -714,6 +784,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="86Y-kl-bcH"/>
+        <segue reference="6NC-DL-dkN"/>
     </inferredMetricsTieBreakers>
 </document>

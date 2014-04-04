@@ -11,6 +11,7 @@
 @interface ModuleStudentListTVC : UITableViewController
 
 @property (assign, nonatomic) int receivedModuleID;
+@property (assign, nonatomic) int receivedLectureID;
 @property (strong, nonatomic) NSString *receivedModuleCode;
 
 @end

@@ -70,13 +70,11 @@ static NSString *editUserLink = @"http://livattend.tk/edit_user.php";
     self.captureImagesButton.buttonColor = [UIColor concreteColor];
     self.captureImagesButton.shadowColor = [UIColor asbestosColor];
     self.captureImagesButton.shadowHeight = 3.0f;
-    self.captureImagesButton.cornerRadius = 6.0f;
     self.captureImagesButton.titleLabel.font = [UIFont boldFlatFontOfSize:16];
     self.captureImagesButton.highlightedColor = [UIColor blackColor];
     self.selectModulesButton.buttonColor = [UIColor concreteColor];
     self.selectModulesButton.shadowColor = [UIColor asbestosColor];
     self.selectModulesButton.shadowHeight = 3.0f;
-    self.selectModulesButton.cornerRadius = 6.0f;
     self.selectModulesButton.titleLabel.font = [UIFont boldFlatFontOfSize:16];
     self.selectModulesButton.highlightedColor = [UIColor blackColor];
 

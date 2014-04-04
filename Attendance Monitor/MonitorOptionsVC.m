@@ -130,6 +130,7 @@ static NSString *addLectureLink = @"http://livattend.tk/add_lecture.php";
 // Prepare to move to new view
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"singleScanSegue"]) {
+        [[segue destinationViewController] setReceivedLectureID:nextLectureID];
         [[segue destinationViewController] setReceivedModuleID:[self receivedModuleID]];
         [[segue destinationViewController] setReceivedModuleCode:[self receivedModuleCode]];
     }
