@@ -30,8 +30,10 @@ static NSString *getTaughtModules = @"http://livattend.tk/get_taught_modules.php
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self setUsername:@"tpayne"]; // *******************************************************************************
     
+    [self.navigationItem setHidesBackButton:YES];
+    [[self navigationItem] setTitle:@"Select Module"];
+
     [[[[[[self navigationController] tabBarController] tabBar] items] objectAtIndex:0] setEnabled:YES];
     [[[[[[self navigationController] tabBarController] tabBar] items] objectAtIndex:1] setEnabled:YES];
     

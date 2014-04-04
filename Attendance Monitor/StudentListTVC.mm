@@ -39,6 +39,9 @@ static NSString *getAllPeopleLink = @"http://livattend.tk/get_students.php";
 {
     [super viewDidLoad];
     
+    [self.navigationItem setHidesBackButton:YES];
+    [[self navigationItem] setTitle:@"Students"];
+    
     [self setDownloadInProgress:NO];
     [self setDownloadFailed:YES];
     [self setReloadStudentList:NO];

@@ -13,6 +13,7 @@
 		0001FA1418DBBCBB00968F11 /* Overlay-NoFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 0001FA1218DBBCBB00968F11 /* Overlay-NoFace.png */; };
 		001689AF18EDC68F005A8DB9 /* SingleScanVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 001689AE18EDC68F005A8DB9 /* SingleScanVC.mm */; };
 		001689B218EDFC04005A8DB9 /* UploadDataVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 001689B118EDFC04005A8DB9 /* UploadDataVC.m */; };
+		001689B518EE6046005A8DB9 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 001689B418EE6046005A8DB9 /* LoginVC.m */; };
 		002DB1AF18C91E0200210BBF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1A918C91E0200210BBF /* Accelerate.framework */; };
 		002DB1B018C91E0200210BBF /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */; };
 		002DB1B118C91E0200210BBF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002DB1AB18C91E0200210BBF /* CoreImage.framework */; };
@@ -102,6 +103,8 @@
 		001689AE18EDC68F005A8DB9 /* SingleScanVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SingleScanVC.mm; sourceTree = "<group>"; };
 		001689B018EDFC04005A8DB9 /* UploadDataVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadDataVC.h; sourceTree = "<group>"; };
 		001689B118EDFC04005A8DB9 /* UploadDataVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadDataVC.m; sourceTree = "<group>"; };
+		001689B318EE6046005A8DB9 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
+		001689B418EE6046005A8DB9 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		002DB1A918C91E0200210BBF /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		002DB1AA18C91E0200210BBF /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		002DB1AB18C91E0200210BBF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -329,6 +332,8 @@
 				008F582D18A3E1B90012370C /* Main.storyboard */,
 				00AFDE3A18DD250D00056D61 /* FaceAnalyser.hh */,
 				00AFDE3B18DD250D00056D61 /* FaceAnalyser.mm */,
+				001689B318EE6046005A8DB9 /* LoginVC.h */,
+				001689B418EE6046005A8DB9 /* LoginVC.m */,
 				0001FA0D18D7BB5300968F11 /* Add Student */,
 				0001FA0E18D7BB7000968F11 /* Take Attendance */,
 				008F583618A3E1B90012370C /* Images.xcassets */,
@@ -601,6 +606,7 @@
 				008D303A18E74AFA008BC864 /* SelectModuleTVC.m in Sources */,
 				00CC124D18E10B570014099D /* UINavigationBar+FlatUI.m in Sources */,
 				00CC125418E10B570014099D /* UIToolbar+FlatUI.m in Sources */,
+				001689B518EE6046005A8DB9 /* LoginVC.m in Sources */,
 				008F583218A3E1B90012370C /* AddStudentVC.mm in Sources */,
 				00CC124E18E10B570014099D /* UIPopoverController+FlatUI.m in Sources */,
 				001689B218EDFC04005A8DB9 /* UploadDataVC.m in Sources */,
