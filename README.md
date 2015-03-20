@@ -4,4 +4,4 @@ An iOS application that makes use of facial recognition techniques in order to i
 
 This project uses OpenCV libraries to perform facial recongition.
 
-Has been optimised to run on iPhone 6.
+Has been optimised to run on iPhone 5S.

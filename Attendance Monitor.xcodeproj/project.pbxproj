@@ -520,6 +520,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Myles Ringle";
 				TargetAttributes = {
+					008F581718A3E1B90012370C = {
+						DevelopmentTeam = 923CWAH3CT;
+					};
 					008F583B18A3E1B90012370C = {
 						TestTargetID = 008F581718A3E1B90012370C;
 					};
@@ -751,9 +754,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/myles/Documents/Uni\\ Work/Year\\ 3/Comp\\ 395\\ -\\ Project/App/Attendance\\ Monitor/Attendance\\ Monitor/Frameworks",
+					"./**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Attendance Monitor/Attendance Monitor-Prefix.pch";
@@ -768,9 +773,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/myles/Documents/Uni\\ Work/Year\\ 3/Comp\\ 395\\ -\\ Project/App/Attendance\\ Monitor/Attendance\\ Monitor/Frameworks",
+					"./**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Attendance Monitor/Attendance Monitor-Prefix.pch";
